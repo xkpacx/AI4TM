@@ -1,38 +1,52 @@
 # AI4TM Masterclass - Python Dependencies
+#
+# NOTE: This file is for OPTIONAL local setup only.
+# Most learners should use Google Colab (no installation required).
+#
+# Google Colab already has most of these packages pre-installed.
+# Only install locally if you're an advanced user following the local setup guide.
+#
 # Install with: pip install -r requirements.txt
 
-# Core Data Science
+# === Primary AI API (Free Tier) ===
+# Google Gemini - NEW unified SDK (replaces deprecated google-generativeai)
+google-genai>=0.1.0
+
+# === Optional AI APIs (Paid - Only if you already have keys) ===
+anthropic>=0.18.0
+openai>=1.0.0
+
+# === Core Data Science ===
+# These are pre-installed in Colab but needed for local setup
 numpy>=1.24.0
 pandas>=2.0.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
 scipy>=1.10.0
 
-# Machine Learning
+# === Machine Learning ===
 scikit-learn>=1.3.0
 
-# Deep Learning (optional - primarily used in Colab with GPU)
-torch>=2.0.0
-transformers>=4.30.0
+# === Deep Learning (Optional - mainly for later sessions) ===
+# Uncomment if needed for local setup
+# torch>=2.0.0
+# transformers>=4.30.0
 
-# AI API Clients
-anthropic>=0.18.0
-openai>=1.0.0
-
-# Utilities
+# === Jupyter (for local development) ===
 jupyter>=1.0.0
 notebook>=7.0.0
 ipywidgets>=8.0.0
-python-dotenv>=1.0.0
 
-# Visualization Enhancements
-plotly>=5.14.0
-networkx>=3.1  # For knowledge graphs (Session 5)
-
-# Data Processing
+# === Utilities ===
+python-dotenv>=1.0.0  # For loading API keys from .env file (local only)
 requests>=2.31.0
-beautifulsoup4>=4.12.0  # For web scraping examples
 
-# Development Tools
-black>=23.0.0  # Code formatting
-pytest>=7.0.0  # Testing
+# === Visualization Enhancements ===
+plotly>=5.14.0
+
+# === Knowledge Graphs (Session 5) ===
+networkx>=3.1
+
+# === Development Tools (Optional) ===
+# black>=23.0.0  # Code formatting
+# pytest>=7.0.0  # Testing
