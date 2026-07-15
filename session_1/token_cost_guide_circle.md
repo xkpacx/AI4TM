@@ -142,12 +142,12 @@ Say you want to run sentiment analysis on 500 customer reviews, each about 50 wo
 | Model | Estimated cost for 500 reviews |
 |---|---|
 | Gemini free tier | $0 (but check your daily request quota first — 500 calls may exceed it) |
-| Gemini 2.5 Flash-Lite | ~$0.001 |
-| GPT-4o mini | ~$0.002 |
-| Claude Haiku 4.5 | ~$0.011 |
-| Claude Sonnet 5 | ~$0.033 |
+| Gemini 2.5 Flash-Lite | ~$0.011 |
+| GPT-4o mini | ~$0.017 |
+| Claude Haiku 4.5 | ~$0.131 |
+| Claude Sonnet 5 | ~$0.394 |
 
-Even the "expensive" option here costs a few cents for 500 reviews. The real risk isn't a single well-planned batch — it's an **unplanned loop**: retrying on every error without a cap, accidentally re-processing the same data twice, or pasting an entire multi-page document into every single request in a loop instead of once. Estimate the total *before* you press run, especially when `num_items` is large or your prompts include a lot of pasted context.
+Even the "expensive" option here costs well under a dollar for 500 reviews. The real risk isn't a single well-planned batch — it's an **unplanned loop**: retrying on every error without a cap, accidentally re-processing the same data twice, or pasting an entire multi-page document into every single request in a loop instead of once. Estimate the total *before* you press run, especially when `num_items` is large or your prompts include a lot of pasted context.
 
 ---
 

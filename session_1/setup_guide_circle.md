@@ -116,7 +116,7 @@ client = genai.Client(api_key=userdata.get('GEMINI_API_KEY'))
 
 # Ask Gemini a question
 response = client.models.generate_content(
-    model='gemini-2.0-flash-exp',
+    model='gemini-2.5-flash-lite',
     contents='In one sentence, what is customer segmentation?'
 )
 
@@ -206,7 +206,7 @@ client = genai.Client(api_key=userdata.get('GEMINI_API_KEY'))
 
 # Ask something
 response = client.models.generate_content(
-    model='gemini-2.0-flash-exp',
+    model='gemini-2.5-flash-lite',
     contents='Your question here'
 )
 
@@ -232,7 +232,7 @@ Provide:
 '''
 
 response = client.models.generate_content(
-    model='gemini-2.0-flash-exp',
+    model='gemini-2.5-flash-lite',
     contents=prompt
 )
 
@@ -255,7 +255,7 @@ Make them engaging with a call-to-action.
 '''
 
 response = client.models.generate_content(
-    model='gemini-2.0-flash-exp',
+    model='gemini-2.5-flash-lite',
     contents=prompt
 )
 
