@@ -1,37 +1,27 @@
-# Estimating Token Costs: How Not to Bankrupt Yourself
+# Estimating token costs: how not to bankrupt yourself
 
-Before you run an AI model on a big batch of data — 500 customer reviews, a whole spreadsheet, a folder of documents — you should know roughly what it's going to cost. This guide teaches you to **preview the cost before you spend anything**, whether that's real dollars on a paid API or your daily quota on the free Gemini tier.
+Before running an AI model on a large batch of data — 500 customer reviews, a full spreadsheet, a folder of documents — it's worth knowing roughly what that run will cost. This guide builds the habit of previewing a cost before spending anything, whether that spending is real money on a paid API or your daily allowance on the free Gemini tier.
 
-**Time**: ~15 minutes
+**Time**: about 15 minutes
 **Cost to read this guide**: $0
 
 ---
 
-## Why This Matters
+## Why this matters
 
-On the **free Gemini tier** (the default for this course), you can't run up a credit card bill — there's no card attached. But you *can* burn through your daily quota in minutes if you loop over a large dataset without checking the size first, and then you're locked out until it resets.
+On the free Gemini tier, the default for this course, there is no way to run up a credit card bill, because no card is attached to it. There is, however, a way to burn through a daily quota in minutes: looping over a large dataset without checking its size first, and then being locked out until the quota resets.
 
-On a **paid API** (OpenAI, Anthropic, or Gemini's paid tier), every request costs real money — priced per **token**, not per request. A single test prompt costs a fraction of a cent. A loop that accidentally re-sends a 50-page document on every one of 10,000 iterations can cost real money before you notice. The habit this guide builds — **estimate first, run second** — is what prevents that.
+On a paid API, whether OpenAI, Anthropic, or Gemini's paid tier, every request costs real money, priced per **token** rather than per request. A single test prompt costs a fraction of a cent, so the risk isn't in careful, deliberate testing. It's in an unplanned loop: a script that re-sends a fifty-page document on every one of ten thousand iterations can accumulate real cost before anyone notices. The habit this guide builds — estimate first, run second — is what prevents that.
 
 ---
 
-## What Is a Token?
+## What is a token?
 
-AI models don't read text as words or letters — they read it as **tokens**, small chunks of text the model was trained to recognize. A token is often a word, but frequently it's a piece of a word.
+AI models don't read text as words or letters. They read it as **tokens**, small chunks of text the model was trained to recognize. A token is often a word, though frequently it's only a piece of one; "marketing," for instance, might split into two tokens, `market` and `ing`. As a rough rule for English text, one token is approximately four characters, or about three-quarters of a word. A hundred-word email, by that rule, comes to roughly 130 to 150 tokens. This estimate isn't exact, but it's close enough to sanity-check a cost before committing to a run.
 
-For example, "marketing" might become two tokens: `market` + `ing`. As a rough rule for English text:
+Tokens come in two kinds, priced differently. **Input tokens** cover everything sent to the model: the prompt, any pasted data, and any instructions. **Output tokens** cover everything the model generates in response, and these are typically priced two to six times higher than input tokens, since generating text costs more computationally than reading it.
 
-- **1 token ≈ 4 characters**
-- **1 token ≈ ¾ of a word**
-
-So a 100-word email is roughly 130–150 tokens. This isn't exact, but it's close enough to sanity-check a cost before you commit to running something.
-
-**Two kinds of tokens, priced differently:**
-
-- **Input tokens** — everything you send: your prompt, any pasted data, instructions.
-- **Output tokens** — everything the model generates back. These are usually priced **2–6× higher** than input tokens, because generating text costs more than reading it.
-
-If you're processing many items (rows in a spreadsheet, reviews, emails), your total cost is roughly:
+For a batch job processing many items, whether rows in a spreadsheet, customer reviews, or emails, the total cost follows roughly this shape:
 
 ```
 number of items × (input tokens per item + output tokens per item) × price per token
@@ -39,9 +29,9 @@ number of items × (input tokens per item + output tokens per item) × price per
 
 ---
 
-## Quick Estimate — No API Call Needed
+## A quick estimate, without calling any API
 
-You don't need to call any API to get a ballpark. In Python:
+A rough token count doesn't require an API call at all. In Python:
 
 ```python
 def estimate_tokens_quick(text: str) -> int:
@@ -52,15 +42,15 @@ sample_review = "Great product, but shipping took way too long. Would still reco
 print(estimate_tokens_quick(sample_review))  # ~20 tokens
 ```
 
-Use this the moment you're about to write a loop over a dataset — before you touch the API at all.
+Run this the moment a loop over a dataset is being written, before the API is touched at all.
 
 ---
 
-## Getting an Exact Count (Free — Doesn't Use Your Quota)
+## Getting an exact count, for free
 
-When you want a precise number instead of a rough guess, most providers offer a **token counting** call that's free and doesn't count against your usage quota, because it doesn't generate anything.
+When a precise number is needed rather than a rough guess, most providers offer a **token counting** call that costs nothing and doesn't count against the usage quota, since it doesn't generate anything.
 
-**Gemini:**
+For Gemini:
 
 ```python
 from google import genai
@@ -75,36 +65,37 @@ response = client.models.count_tokens(
 print(response.total_tokens)
 ```
 
-OpenAI and Anthropic have equivalent counting endpoints — check their docs if you're using a paid key. The exact method names change occasionally, so if the code above errors, search "[provider name] count tokens API" for the current version.
+OpenAI and Anthropic offer equivalent counting endpoints for anyone using a paid key with those providers. Method names shift occasionally as libraries update, so if the code above errors, a search for "[provider name] count tokens API" should surface the current syntax.
 
 ---
 
-## Current Pricing (verify before you commit — these change often)
+## Current pricing
 
-Prices are quoted **per 1 million tokens** and shift over time as providers release new models. Treat this table as a starting point, not gospel — check the official pricing page linked below before budgeting a large run.
+Prices are quoted per one million tokens, and they shift over time as providers release new models. The table below is a starting point, not a fixed reference — check the official pricing page linked underneath before budgeting a large run.
 
 | Provider | Model | Input $/1M tokens | Output $/1M tokens | Notes |
 |---|---|---|---|---|
 | Google Gemini | Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Cheapest paid Gemini option |
 | Google Gemini | Gemini 3.1 Flash-Lite | $0.25 | $1.50 | Budget-friendly, more capable |
 | Google Gemini | Gemini 3.5 Flash | $1.50 | $9.00 | Most capable "Flash" tier |
-| Google Gemini | **Free tier** | $0 | $0 | No dollar cost — but rate-limited (requests/minute and requests/day). Limits change; check your quota on [Google AI Studio](https://aistudio.google.com/apikey) |
+| Google Gemini | Free tier | $0 | $0 | No dollar cost, but rate-limited (requests per minute and per day). Limits change; check your quota on [Google AI Studio](https://aistudio.google.com/apikey) |
 | OpenAI | GPT-4o mini | $0.15 | $0.60 | Cheapest OpenAI option |
 | Anthropic | Claude Haiku 4.5 | $1.00 | $5.00 | Cheapest Claude option |
 | Anthropic | Claude Sonnet 5 | $3.00 | $15.00 | Mid-tier, higher quality |
 
-**Official pricing pages** (bookmark these — they're always more current than any table):
+Official pricing pages, worth bookmarking since they're always more current than a static table:
+
 - Google Gemini: [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing)
 - OpenAI: [openai.com/api/pricing](https://openai.com/api/pricing/)
 - Anthropic: [claude.com/pricing](https://claude.com/pricing)
 
-⚠️ **Free tier ≠ unlimited.** The free Gemini tier has no dollar cost, but it does have a daily and per-minute request cap that Google adjusts over time. If you're planning to process more than a handful of items, check your current quota on the AI Studio dashboard before you start — don't assume a number from an old guide (including this one) is still accurate.
+> **A free tier is not an unlimited tier.** The free Gemini tier carries no dollar cost, but it does have a daily and per-minute request cap that Google adjusts over time. Anyone planning to process more than a handful of items should check the current quota on the AI Studio dashboard before starting, rather than trusting a fixed number from any guide, including this one.
 
 ---
 
-## Build Your Own Cost Calculator
+## Building a cost calculator
 
-Before running anything on a paid tier, estimate the total:
+Before running anything on a paid tier, the total cost is worth estimating directly:
 
 ```python
 def estimate_cost(
@@ -135,43 +126,41 @@ print(f"Estimated cost: ${cost:.4f}")
 
 ---
 
-## Worked Example: 500 Customer Reviews
+## A worked example: 500 customer reviews
 
-Say you want to run sentiment analysis on 500 customer reviews, each about 50 words (~250 characters), with a short structured response (~40 tokens) per review.
+Consider running sentiment analysis on 500 customer reviews, each roughly 50 words (about 250 characters), with a short structured response (about 40 tokens) returned per review.
 
 | Model | Estimated cost for 500 reviews |
 |---|---|
-| Gemini free tier | $0 (but check your daily request quota first — 500 calls may exceed it) |
+| Gemini free tier | $0 (check the daily request quota first — 500 calls may exceed it) |
 | Gemini 2.5 Flash-Lite | ~$0.011 |
 | GPT-4o mini | ~$0.017 |
 | Claude Haiku 4.5 | ~$0.131 |
 | Claude Sonnet 5 | ~$0.394 |
 
-Even the "expensive" option here costs well under a dollar for 500 reviews. The real risk isn't a single well-planned batch — it's an **unplanned loop**: retrying on every error without a cap, accidentally re-processing the same data twice, or pasting an entire multi-page document into every single request in a loop instead of once. Estimate the total *before* you press run, especially when `num_items` is large or your prompts include a lot of pasted context.
+Even the costliest option here comes in well under a dollar for 500 reviews. The real risk isn't a single, well-planned batch — it's an unplanned loop: retrying on every error without a cap, accidentally re-processing the same data twice, or pasting an entire multi-page document into every single request in a loop instead of once. Estimating the total before pressing run matters most precisely when the item count is large or the prompts carry a lot of pasted context.
 
 ---
 
-## 5 Rules to Avoid Surprise Bills
+## Rules to avoid surprise bills
 
-1. **Estimate before you loop.** Multiply item count × tokens per item × price, *before* writing the `for` loop that calls the API.
-2. **Test on the cheapest model first.** Prototype your prompt on the free tier or the cheapest paid model (Flash-Lite, GPT-4o mini, Haiku). Only upgrade to a pricier model if quality genuinely requires it.
-3. **Cap your output length.** Most APIs accept a `max_tokens` (or similar) parameter. Set a sane ceiling so a model that starts rambling can't run up an unexpectedly large output bill.
-4. **Don't re-send large context repeatedly.** If you're referencing the same big document across many calls, summarize it once or use the provider's caching feature instead of pasting the whole thing into every request.
-5. **Set a spending limit in your provider dashboard.** OpenAI, Anthropic, and Google Cloud all let you set a hard monthly spending cap or usage alert. Turn one on if you're using a paid key — it's the safety net for when your estimate is wrong.
+Estimate before looping: multiply item count by tokens per item by price, before writing the `for` loop that calls the API. Test on the cheapest model first, prototyping a prompt on the free tier or the cheapest paid model (Flash-Lite, GPT-4o mini, Haiku), and only upgrading to a pricier model when quality genuinely requires it. Cap the output length: most APIs accept a `max_tokens` (or similarly named) parameter, and setting a sane ceiling means a model that starts rambling can't run up an unexpectedly large output bill.
+
+Avoid re-sending large context repeatedly. If the same large document is referenced across many calls, summarize it once, or use the provider's caching feature, rather than pasting the whole document into every request. Finally, set a spending limit in the provider's dashboard. OpenAI, Anthropic, and Google Cloud all allow a hard monthly spending cap or a usage alert to be configured, and turning one on for any paid key provides a safety net for when an estimate turns out to be wrong.
 
 ---
 
-## Where to Watch Your Real Spending
+## Where to watch real spending
 
-- **Google Gemini**: [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — shows your key usage and quota
+- **Google Gemini**: [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — shows key usage and quota
 - **OpenAI**: [platform.openai.com/usage](https://platform.openai.com/usage) — usage dashboard and spending limits
 - **Anthropic**: [console.anthropic.com](https://console.anthropic.com) — Console → Usage and Cost
 
-Check these *before* a large run, not just after.
+These are worth checking before a large run, not only after.
 
 ---
 
-## Quick Reference
+## Quick reference
 
 ```python
 # Rough token estimate — no API call needed
@@ -188,8 +177,8 @@ def estimate_cost(num_items, avg_input_chars, avg_output_tokens,
     return input_cost + output_cost
 ```
 
-**The habit that matters most**: before running anything against a real dataset, ask "how many items, how many tokens each, at what price?" — and do that multiplication before you do the loop.
+The habit that matters most: before running anything against a real dataset, ask how many items, how many tokens each, and at what price — and do that multiplication before running the loop.
 
 ---
 
-**Questions?** Post in the Circle community.
+Questions belong in the Circle community.

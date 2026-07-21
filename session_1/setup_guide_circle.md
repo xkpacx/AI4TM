@@ -1,111 +1,68 @@
-# Setting Up Your Free AI Marketing Toolkit
+# Setting up your free AI marketing toolkit
 
-Welcome to AI4TM! This guide will help you set up everything you need — **100% free, no credit card required**.
+This guide sets up everything the course requires, at no cost: no credit card, no subscription, nothing to cancel later. By the end of it, three things will be in place — Google Colab for running code in a browser, a free Gemini API key for talking to Google's AI models, and a GitHub account for saving and sharing your work. The whole process takes about ten minutes, and the only requirement is a Google account, the same one behind Gmail.
 
-## What You'll Set Up (10 minutes total)
+## Your free learning path
 
-1. **Google Colab** - Write and run code in your browser
-2. **Free Gemini API** - Access Google's AI (250 requests/day, free forever)
-3. **GitHub** - Save and share your projects
+This course defaults to Google's free tier for Gemini: no credit card, a daily allowance of AI requests that resets automatically, and no expiration date on the key itself. The same Google login covers Colab, Gemini, and everything else you'll touch in this course. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead — see the optional section near the end of this guide.
 
-**Requirements**: Just a Google account (same as Gmail)
+> **A note on privacy.** Any free AI API, including Google's, OpenAI's free tier, and similar offerings, may have your requests reviewed by human moderators, and your data may be used to train future models. For this course, work only with public example data, made-up (synthetic) data, or anonymized datasets provided in the materials. Do not send client data, confidential information, or proprietary content through a free-tier API. If you need full privacy for sensitive work, a paid API plan removes this exposure, though it is not required for this course.
 
 ---
 
-## 🎯 Your Free Learning Path
+## Part 1: open notebooks in Google Colab
 
-This course uses **Google's free tier** by default:
-- ✅ No credit card needed
-- ✅ 250 AI requests per day
-- ✅ Resets daily
-- ✅ Never expires
-- ✅ Same Google login for everything
+**Google Colab** is a free tool from Google for writing and running code directly in a browser. It behaves something like a word processor for code: nothing to install, work saves automatically, and a link is enough to share it with someone else.
 
-**Already paying for OpenAI or Anthropic?** You can use those instead — see the optional section at the end.
+To open a course notebook:
 
-### ⚠️ Important Privacy Note
+1. Go to the course GitHub repository (the link is provided by your instructor).
+2. Click on any `.ipynb` file, such as `setup_guide.ipynb`.
+3. Click the "Open in Colab" badge at the top of the file.
+4. The notebook opens in a new browser tab.
 
-With **any free AI API** (Google, OpenAI free tier, etc.):
-- Your requests may be read by human reviewers
-- Your data may be used to train the AI models
-
-**For this course, use only**:
-- Public example data
-- Made-up (synthetic) data
-- Anonymized datasets we provide
-
-**Never send**: Client data, confidential info, or proprietary content.
-
-*Need full privacy? Upgrade to a paid API plan (not required for this course).*
+A notebook in Colab is built from two kinds of cells. Code cells carry a play button and run when you click it; text cells hold explanations and are meant only for reading. To save your work, use File → Save a copy in Drive, or File → Save a copy in GitHub if you'd rather commit it to your repository directly.
 
 ---
 
-## Part 1: Open Notebooks in Google Colab
+## Part 2: get your free Gemini API key
 
-### What is Google Colab?
+An **API key** functions like a password: it is what lets your code authenticate with Google's AI models on your behalf. It takes the form of a long string starting with `AIza`.
 
-Colab is Google's free tool for writing and running code in your browser. Think "Google Docs for code" — no installation, auto-saves, shareable links.
+To generate a free key:
 
-### How to Open Course Notebooks
+1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
+2. Sign in with your Google account.
+3. Click "Create API Key."
+4. Let Google create a new project for you (click "Continue" when prompted).
+5. Copy the key once it appears.
 
-1. Go to the course GitHub repository (link provided by instructor)
-2. Click on any `.ipynb` file (like `setup_guide.ipynb`)
-3. Click the **"Open in Colab"** badge at the top
-4. The notebook opens in a new tab
+The whole process takes about two minutes.
 
-### Quick Colab Basics
+> **If you're in the EEA, UK, or Switzerland:** Google may ask you to enable billing for regulatory reasons before issuing a key. You will not be charged as long as you stay within the free quota.
 
-- **Code cells**: Have a ▶️ play button. Click to run them.
-- **Text cells**: Just explanations, for reading only.
-- **Save your work**: File → Save a copy in Drive (or Save to GitHub)
+**Do not paste an API key directly into your code.** Anyone who sees that code, including a shared notebook or a public GitHub repository, would then have your key. Colab Secrets exists specifically to avoid this:
 
----
-
-## Part 2: Get Your Free Gemini API Key
-
-### What is an API key?
-
-An API key is like a password that lets your code talk to Google's AI. It looks like: `AIzaSyD...`
-
-### Get Your Free Key (2 minutes)
-
-1. Go to: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Sign in with your Google account
-3. Click **"Create API Key"**
-4. Let it create a new project (click "Continue")
-5. **Copy the key** (starts with `AIza`)
-
-### ⚠️ EU/UK/Switzerland Note
-
-If you're in the EEA, UK, or Switzerland, Google may ask you to enable billing for regulatory reasons. You won't be charged if you stay within the free quota (250 requests/day).
-
-### Store Your Key Securely in Colab
-
-**Never paste API keys directly in code!** Use Colab Secrets:
-
-1. In Colab, look at the left sidebar
-2. Click the **🔑 key icon** (called "Secrets")
-3. Click **"+ Add new secret"**
-4. **Name**: `GEMINI_API_KEY`
-5. **Value**: Paste your API key
-6. **Toggle the switch** to allow this notebook access
-7. Click **"Save"**
+1. In Colab, open the left sidebar and click the key icon, labeled "Secrets."
+2. Click "+ Add new secret."
+3. Set the name to `GEMINI_API_KEY`.
+4. Paste your key as the value.
+5. Toggle the switch to grant this notebook access.
+6. Click "Save."
 
 ---
 
-## Part 3: Test Your Setup
+## Part 3: test your setup
 
-### Install Google's AI Library
-
-In any code cell, run:
+**Google's AI library** is a package of pre-written code that handles the details of talking to Gemini, so you do not have to build that connection from scratch. Install it by running the following in any code cell:
 
 ```python
 !pip install -q google-genai
 ```
 
-The `!` means "run this as a command, not code." The `-q` means "quiet" (less output).
+The leading `!` tells Colab to run this line as a system command rather than Python code; `-q` asks for quiet output, suppressing the installation log.
 
-### Test Your Connection
+Test the connection:
 
 ```python
 from google import genai
@@ -123,79 +80,40 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-**If you see a response**: 🎉 It works!
-
-**If you see an error**: Check:
-- Did you add the key to Secrets? (🔑 icon)
-- Named it exactly `GEMINI_API_KEY`?
-- Toggled the switch to allow access?
+A response from Gemini means the setup worked. If you see an error instead, check three things: that the key was added to Secrets, that it is named exactly `GEMINI_API_KEY`, and that the toggle granting notebook access was switched on.
 
 ---
 
-## Part 4: Understanding Your Free Quota
+## Part 4: understand your free quota
 
-### What You Get
-
-- **10 requests per minute**
-- **250 requests per day**
-- **Resets every 24 hours**
-- **Never expires**
-
-### Is This Enough?
-
-**Yes!** Each session uses 20-50 requests. Even with experimentation, you won't hit the limit.
-
-### If You Hit the Limit?
-
-You'll get an error. Just wait until tomorrow (quota auto-resets) or upgrade to paid if needed.
+The free tier includes ten requests per minute and 250 requests per day, with the daily count resetting every 24 hours and the key itself never expiring. A typical session in this course uses somewhere between 20 and 50 requests, so even with experimentation, the limit is unlikely to be a problem. If you do hit it, the API returns an error; wait until the quota resets the next day, or move to a paid plan if you need more headroom sooner.
 
 ---
 
-## Part 5: GitHub - Saving Your Work
+## Part 5: GitHub — save your work
 
-### Why GitHub?
+**GitHub** serves a role for code similar to what cloud storage does for documents: it keeps a history of versions so mistakes can be undone, it makes sharing a project straightforward, and over time it becomes a visible record of the work you've done, useful if you're building a portfolio around applied AI skills.
 
-GitHub is like Google Drive for code. It:
-- Saves different versions (undo mistakes)
-- Lets you share projects
-- Builds your AI portfolio
+To create an account, go to [github.com](https://github.com), click "Sign up," choose a username (something like `yourname-marketing` reads well professionally), and verify your email. This takes about three minutes.
 
-### Create Account (3 minutes)
+A **repository** (usually shortened to "repo") is the folder that holds a project's files. To create one for this course:
 
-1. Go to [github.com](https://github.com)
-2. Click **"Sign up"**
-3. Choose username (like `yourname-marketing`)
-4. Verify email
+1. On GitHub, click the "+" icon in the top right.
+2. Select "New repository."
+3. Name it `ai4tm-masterclass`.
+4. Add a description, such as "AI for Marketing projects."
+5. Choose Public or Private, depending on your preference.
+6. Check "Add a README file."
+7. Under "Add .gitignore," choose "Python."
+8. Click "Create repository."
 
-### Create Your Repository
-
-A "repository" (repo) is a folder for your project files.
-
-1. On GitHub, click **"+"** (top right)
-2. Select **"New repository"**
-3. **Name**: `ai4tm-masterclass`
-4. **Description**: "AI for Marketing projects"
-5. **Public** or **Private** (your choice)
-6. Check ✅ **"Add a README"**
-7. **gitignore**: Choose "Python"
-8. Click **"Create repository"**
-
-### Save Colab Notebooks to GitHub
-
-1. In Colab: **File → Save a copy in GitHub**
-2. **Authorize** Colab (first time only)
-3. **Select repo**: `your-username/ai4tm-masterclass`
-4. **File path**: `session_1/setup_guide.ipynb`
-5. **Commit message**: "Complete setup guide"
-6. Click **OK**
-
-Your work is now saved and backed up!
+To save a Colab notebook into that repository: in Colab, go to File → Save a copy in GitHub. The first time you do this, Colab will ask to authorize access to your GitHub account. Select the repository (`your-username/ai4tm-masterclass`), set the file path to `session_1/setup_guide.ipynb`, write a commit message such as "Complete setup guide," and click OK. From that point on, the notebook is saved and backed up outside of Colab.
 
 ---
 
-## Part 6: Quick Reference
+## Part 6: quick reference
 
-### Basic Code Template
+The pattern below is the basic template for calling Gemini, and it's the shape most of your prompts in this course will follow:
 
 ```python
 from google import genai
@@ -213,7 +131,7 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-### Example: Analyze Customer Sentiment
+Two worked examples show the pattern applied to marketing tasks. The first analyzes sentiment in a customer review:
 
 ```python
 from google import genai
@@ -239,7 +157,7 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-### Example: Generate Marketing Copy
+The second generates marketing copy from a short brief:
 
 ```python
 from google import genai
@@ -264,44 +182,25 @@ print(response.text)
 
 ---
 
-## ✅ Setup Complete!
+## Setup complete
 
-You've now:
-- Set up Google Colab
-- Got a free Gemini API key
-- Tested your AI connection
-- Created a GitHub account
-- Saved your first notebook
+At this point, Google Colab is set up, a free Gemini API key is generated and stored securely, the connection has been tested, a GitHub account exists, and a first notebook has been saved. Before each session going forward, open that session's notebook in Colab, confirm the API key is still present in Secrets, and run the setup cells at the top before continuing.
 
-### Before Each Session
-
-1. Open the session notebook in Colab
-2. Check your API key is in Secrets (🔑)
-3. Run the setup cells at the top
-
-### Tips for Success
-
-- **Save often**: File → Save to GitHub
-- **Experiment**: Try changing the code
-- **Stay in quota**: 250/day is plenty
-- **No real data**: Only public/synthetic data
+A few habits will keep the rest of the course running smoothly: save your work to GitHub regularly rather than relying on Colab's autosave alone, experiment by changing the example code rather than only reading it, keep an eye on your daily quota (250 requests is generous, but not unlimited), and use only public or synthetic data, never real client or confidential information.
 
 ---
 
-## Optional: Advanced Setups
+## Optional: advanced setups
 
-The sections below are **NOT required**. Only read if:
-- You already have a paid API key (OpenAI/Anthropic)
-- You want to run code locally instead of Colab
-- You're experienced and want more control
+Everything below this point is optional. It's worth reading only if you already hold a paid API key for OpenAI or Anthropic, if you'd prefer to run code on your own machine rather than in Colab, or if you have prior experience and want more control over your environment.
 
 ---
 
-### Optional A: Using Paid APIs
+### Optional A: using paid APIs
 
-**Only if you already have an API key.**
+This section applies only if you already have an API key from OpenAI or Anthropic.
 
-#### OpenAI (ChatGPT)
+**OpenAI (ChatGPT):**
 
 ```python
 !pip install -q openai
@@ -319,9 +218,9 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-*Store your OpenAI key in Secrets as: `OPENAI_API_KEY`*
+Store the OpenAI key in Secrets under the name `OPENAI_API_KEY`.
 
-#### Anthropic (Claude)
+**Anthropic (Claude):**
 
 ```python
 !pip install -q anthropic
@@ -340,21 +239,15 @@ response = client.messages.create(
 print(response.content[0].text)
 ```
 
-*Store your Anthropic key in Secrets as: `ANTHROPIC_API_KEY`*
+Store the Anthropic key in Secrets under the name `ANTHROPIC_API_KEY`.
 
 ---
 
-### Optional B: Local Setup (Advanced)
+### Optional B: local setup (advanced)
 
-**For experienced users only.** Most learners should use Colab.
+This path is for experienced users who prefer running code on their own machine instead of in Colab. Most learners in this course should stay with Colab.
 
-#### Prerequisites
-
-- Python 3.8+ installed
-- Comfortable with command line
-- Understand file paths
-
-#### Steps
+Before starting, you'll need Python 3.8 or later installed, familiarity with the command line, and a working understanding of file paths.
 
 ```bash
 # Download the repository
@@ -375,15 +268,13 @@ pip install -r requirements.txt
 jupyter notebook
 ```
 
-#### Store API Key Locally
-
-Create `.env` file in project folder:
+To store an API key locally, create a `.env` file in the project folder:
 
 ```
 GEMINI_API_KEY=your_key_here
 ```
 
-Use it in code:
+Then load it in code:
 
 ```python
 from dotenv import load_dotenv
@@ -393,24 +284,14 @@ load_dotenv()
 api_key = os.getenv('GEMINI_API_KEY')
 ```
 
-*The `.env` file won't upload to GitHub (already in `.gitignore`)*
+The `.env` file is already listed in `.gitignore`, so it will not be uploaded to GitHub.
 
 ---
 
 ## Resources
 
-### Get Help
-- Course Circle community
-- [Google Colab FAQ](https://research.google.com/colaboratory/faq.html)
-- [GitHub Guides](https://guides.github.com)
-
-### Documentation
-- [Google AI Studio](https://aistudio.google.com)
-- [Gemini API Docs](https://ai.google.dev/gemini-api/docs)
-
-### Check Usage
-- [Your API Keys](https://aistudio.google.com/app/apikey)
+For help, the course's Circle community is the first stop, alongside the [Google Colab FAQ](https://research.google.com/colaboratory/faq.html) and [GitHub Guides](https://guides.github.com). For documentation, see [Google AI Studio](https://aistudio.google.com) and the [Gemini API docs](https://ai.google.dev/gemini-api/docs). To check your key and usage at any point, visit [Your API Keys](https://aistudio.google.com/app/apikey).
 
 ---
 
-**You're ready! Move on to the neural networks notebook. 🚀**
+With setup complete, the next step is the neural networks notebook.
