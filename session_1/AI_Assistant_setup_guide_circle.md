@@ -32,7 +32,7 @@ Your API key is what authenticates your code as you. Anyone who has it can spend
 4. Let Google create a new project for you (click "Continue" when prompted).
 5. Copy the key. It starts with `AIza`.
 
-> **If you're in the EEA, UK, or Switzerland:** Google may ask you to enable billing for regulatory reasons before issuing a key. You won't be charged while you stay within the free quota.
+> **If you're in the EEA, UK, or Switzerland:** Google's free tier generally isn't offered in these regions. Google will likely require you to enable billing before issuing a key, and once billing is on, usage is billed at pay-as-you-go rates — fractions of a cent per request for the lightweight models used in this course.
 
 ### Store the key in Colab Secrets
 
@@ -228,7 +228,7 @@ from google.colab import userdata
 client = Anthropic(api_key=userdata.get('ANTHROPIC_API_KEY'))
 
 response = client.messages.create(
-    model="claude-3-5-haiku-20241022",
+    model="claude-haiku-4-5",
     max_tokens=1024,
     messages=[{"role": "user", "content": "What is customer segmentation?"}]
 )
@@ -242,7 +242,7 @@ Model names change. If a call errors on the model ID, check the provider's curre
 
 ### Optional B: local setup
 
-You'll need Python 3.8 or later, the command line, and a working understanding of file paths.
+You'll need Python 3.10 or later, the command line, and a working understanding of file paths.
 
 ```bash
 # Download the repository
