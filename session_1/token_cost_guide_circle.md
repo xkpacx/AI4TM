@@ -1,6 +1,6 @@
 # Hands-on: estimate token costs before you run anything
 
-Lesson 3 covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. That applies whether you're spending real money on a paid API or spending your daily allowance on the free Gemini tier.
+Lesson 3 covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. There's no free Gemini tier left to fall back on if that step gets skipped — every provider used in this course now requires billing before it issues a key.
 
 Takes about 15 minutes.
 
@@ -8,9 +8,7 @@ Takes about 15 minutes.
 
 ## Why this matters
 
-On the free Gemini tier, the default for this course, there is no way to run up a credit card bill, because no card is attached. There is a way to burn through a daily quota in minutes: looping over a large dataset without checking its size first, then being locked out until the quota resets.
-
-On a paid API, every request costs real money, priced per token rather than per request. A single test prompt costs a fraction of a cent, so careful, deliberate testing is cheap. The expensive failure is an unplanned loop: a script that re-sends a fifty-page document on every one of ten thousand iterations can accumulate real cost before anyone notices. Estimate first, run second, and that doesn't happen.
+Every provider used in this course, Gemini included, now requires a billing method on file before it will issue a key. Every request costs real money, priced per token rather than per request. A single test prompt costs a fraction of a cent, so careful, deliberate testing is cheap. The expensive failure is an unplanned loop: a script that re-sends a fifty-page document on every one of ten thousand iterations can accumulate real cost before anyone notices, with no daily quota wall to stop it early the way a free tier used to. Estimate first, run second, and that doesn't happen.
 
 ---
 
@@ -49,9 +47,9 @@ Two things make this estimate run low: non-English text fragments into more toke
 
 ---
 
-## Getting an exact count, for free
+## Getting an exact count, at no per-call charge
 
-When you need a precise number, most providers offer a token counting call that costs nothing and doesn't draw on your quota, since it generates nothing.
+When you need a precise number, most providers offer a token counting call with no per-call charge, since it generates nothing — it still needs a valid, billed API key to run.
 
 For Gemini:
 
@@ -78,8 +76,7 @@ Prices are quoted per one million tokens and shift as providers release and reti
 
 | Provider | Model | Input $/1M | Output $/1M | Notes |
 |---|---|---|---|---|
-| Google Gemini | Free tier | $0 | $0 | No dollar cost, rate-limited per minute and per day. Limits change, so check [AI Studio](https://aistudio.google.com/apikey) |
-| Google Gemini | Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Cheapest paid option, **retiring 16 October 2026** |
+| Google Gemini | Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Cheapest option, **retiring 16 October 2026** |
 | Google Gemini | Gemini 3.1 Flash-Lite | $0.25 | $1.50 | The migration target once 2.5 retires |
 | Google Gemini | Gemini 3.5 Flash | $1.50 | $9.00 | More capable, roughly 6x the Flash-Lite input price |
 | OpenAI | GPT-4o mini | $0.15 | $0.60 | Budget tier, check the pricing page for current model lineup |
@@ -94,7 +91,7 @@ Official pricing pages, always more current than a static table:
 
 > **Model retirement affects this course.** Google is retiring the Gemini 2.5 family on 16 October 2026, and the course notebooks currently call `gemini-2.5-flash-lite`. If a call starts failing on the model name, swap it for `gemini-3.1-flash-lite`, which is the direct replacement. Note the price difference: 3.1 Flash-Lite costs roughly 2.5x more on input and nearly 4x more on output, so re-run your estimate after switching.
 
-> **A free tier is not an unlimited tier.** The free Gemini tier carries no dollar cost, and it does have a daily and per-minute request cap that Google adjusts over time. Google also removed Pro models from the free tier in April 2026, leaving Flash and Flash-Lite. Before processing more than a handful of items, check the current quota on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
+> **There is no free tier left.** Google removed Pro models from the free tier in April 2026, leaving only Flash and Flash-Lite free — and since then has moved to requiring a billing method on file before issuing any Gemini API key at all, closing that remaining free path too. Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
 
 ---
 
@@ -137,7 +134,6 @@ Sentiment analysis on 500 reviews, each roughly 50 words (about 250 characters),
 
 | Model | Estimated cost for 500 reviews |
 |---|---|
-| Gemini free tier | $0, though 500 calls may exceed the daily quota, so check first |
 | Gemini 2.5 Flash-Lite | ~$0.011 |
 | Gemini 3.1 Flash-Lite | ~$0.038 |
 | GPT-4o mini | ~$0.017 |
@@ -152,7 +148,7 @@ Even the costliest option lands well under a dollar for 500 reviews. A single we
 
 **Estimate before looping.** Multiply item count by tokens per item by price, before writing the `for` loop that calls the API.
 
-**Test on the cheapest model first.** Prototype a prompt on the free tier or the cheapest paid model, then upgrade only when quality genuinely requires it.
+**Test on the cheapest model first.** Prototype a prompt on the cheapest available model, then upgrade only when quality genuinely requires it — none of these models are free anymore, but the cheapest ones cost little enough to iterate on freely.
 
 **Cap the output length.** Most APIs accept a `max_tokens` parameter or similar. Setting a sane ceiling means a model that starts rambling can't run up an unexpected output bill, and output is the expensive side.
 

@@ -1,10 +1,10 @@
 # Hands-on: set up your AI assistant
 
-Setup takes about ten minutes and costs nothing: no credit card, no subscription, nothing to cancel later. You need a Google account, and the GitHub account from Week 1.
+Setup takes about ten minutes. You'll need a Google account with billing enabled — Google requires this before it will issue a Gemini API key at all — and the GitHub account from Week 1. Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
 
-The course defaults to Google's free tier for Gemini, which has a daily allowance that resets automatically and a key that doesn't expire. One Google login covers Colab and Gemini both. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead. See the optional section at the end.
+One Google login covers Colab and Gemini both. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead. See the optional section at the end.
 
-> **A note on privacy.** Free AI APIs, Google's included, may have requests reviewed by human moderators, and your data may be used to train future models. For this course, work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through a free-tier API. A paid plan removes this exposure, though it isn't required here. Week 4 covers this properly.
+> **A note on privacy.** Data-use policy depends on whether the API key is billed under a "Paid tier" project. Google's terms say unpaid/free-quota usage may be reviewed by human moderators and used to train future models, while Paid tier usage is not used for training and skips that review — check the badge in AI Studio to see which applies, rather than assuming. Either way, for this course: work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through any AI API, paid or not. Week 4 covers this properly.
 
 ---
 
@@ -22,17 +22,18 @@ To save: **File → Save a copy in Drive**, or **File → Save a copy in GitHub*
 
 ---
 
-## Part 2: get your free Gemini API key
+## Part 2: get your Gemini API key
 
 Your API key is what authenticates your code as you. Anyone who has it can spend against your account, so treat it accordingly.
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
 2. Sign in with your Google account.
 3. Click "Create API Key."
-4. Let Google create a new project for you (click "Continue" when prompted).
-5. Copy the key. It starts with `AIza`.
+4. Enable billing when prompted — Google requires a billing method on file before it will issue a key at all, everywhere, not only in the EEA, UK, or Switzerland where this was required earlier.
+5. Let Google create a new project for you (click "Continue" when prompted).
+6. Copy the key. It starts with `AIza`.
 
-> **If you're in the EEA, UK, or Switzerland:** Google's free tier generally isn't offered in these regions. Google will likely require you to enable billing before issuing a key, and once billing is on, usage is billed at pay-as-you-go rates — fractions of a cent per request for the lightweight models used in this course.
+> **On cost:** once billing is on, usage is billed at pay-as-you-go rates — fractions of a cent per request for the lightweight models used in this course. There's no free quota behind it, so a mistaken large batch job costs real money instead of just hitting a daily limit; the token cost guide covers checking before you run one.
 
 ### Store the key in Colab Secrets
 
@@ -81,11 +82,11 @@ If you get an error, check that the key is in Secrets, that it's named exactly `
 
 ---
 
-## Part 4: your free quota
+## Part 4: your usage and rate limits
 
-The free tier caps requests per minute and per day. Google changes these limits periodically and they vary by model, so check your live quota in [AI Studio](https://aistudio.google.com) rather than relying on a number quoted here.
+Billed usage still has per-minute and per-day rate limits — paying doesn't mean unlimited. Google changes these limits periodically and they vary by model, so check your live limits in [AI Studio](https://aistudio.google.com) rather than relying on a number quoted here.
 
-A typical session in this course uses roughly 20 to 50 requests, well inside the free allowance for the lightweight models we use. If you hit the limit, the API returns a 429 error. Wait for the reset, or move to a paid plan if you need more headroom.
+A typical session in this course uses roughly 20 to 50 requests, which costs a small fraction of a cent on the lightweight models we use. If you hit a rate limit, the API returns a 429 error. Wait for the reset, or check whether the account needs a higher tier.
 
 Estimating token costs before running a job is covered in this week's cost guide.
 
@@ -187,7 +188,7 @@ Both prompts describe the task without including worked examples, which makes th
 
 Colab is ready, your key is stored, the connection is tested, and your first notebook is saved to GitHub. Before each session: open that session's notebook, confirm the key is still in Secrets, and run the setup cells at the top.
 
-Save to GitHub regularly rather than relying on Colab's autosave. Change the example code and rerun it, since reading it teaches less than breaking it. Keep an eye on your daily quota. Use only public or synthetic data.
+Save to GitHub regularly rather than relying on Colab's autosave. Change the example code and rerun it, since reading it teaches less than breaking it. Keep an eye on your usage and rate limits — there's no free quota behind it anymore. Use only public or synthetic data.
 
 ---
 

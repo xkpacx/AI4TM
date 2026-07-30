@@ -16,9 +16,9 @@ The repository contains educational content, notebooks, and guides for teaching 
 
 ## Core Design Decisions
 
-### Default Path: Free and Accessible
+### Default Path: Low-Cost and Accessible
 - **Primary environment**: Google Colab (cloud-based, no installation required)
-- **Primary API**: Google Gemini (free tier - 250 requests/day, no credit card)
+- **Primary API**: Google Gemini — as of 2026, Google requires a billing method on file before issuing an API key; there is no longer a no-cost, no-card tier. Usage on the lightweight models this course uses (Flash / Flash-Lite) runs at pay-as-you-go rates, typically fractions of a cent per request, but confirm current pricing and whether the key is on a "Paid tier" project at aistudio.google.com before planning a budget
 - **Paid APIs**: OpenAI/Anthropic are optional alternatives for users who already have keys
 - **Local setup**: Available only as an optional "advanced" path for experienced users
 
@@ -29,7 +29,7 @@ The repository contains educational content, notebooks, and guides for teaching 
 - Use analogies and plain language
 
 ### Privacy and Security
-- Clearly flag that free-tier API usage may be used to improve models
+- Clearly flag that unpaid/free-quota AI usage may be reviewed by humans or used to improve models; Google's terms say billed ("Paid tier") Gemini usage is not used for training and skips human review for that purpose, but confirm the key is actually on a Paid tier project before telling students that protection applies to them
 - Warn users not to paste confidential/client data during the course
 - Use only public, synthetic, or anonymized datasets in examples
 - Never commit API keys (use Colab Secrets or `.env` for local)
@@ -75,7 +75,7 @@ jupyter notebook
 ```
 ai4tm-masterclass/
 ├── session_1/              # AI Fundamentals
-│   ├── setup_guide.ipynb          # FREE Colab + Gemini setup (default path)
+│   ├── setup_guide.ipynb          # Colab + Gemini setup (default path, billing required)
 │   ├── setup_guide_circle.md      # Text version for Circle platform
 │   └── [neural networks, tokenization, embeddings notebooks - TBD]
 ├── session_2/              # Evaluation (regression, classification, semantic search)
@@ -96,7 +96,7 @@ ai4tm-masterclass/
 **Session 1: Essential Concepts**
 - Focus: Neural networks, attention, tokenization, embeddings
 - Approach: Production failure modes (light theory)
-- Default setup: Google Colab + free Gemini API
+- Default setup: Google Colab + Gemini API (billing enabled, low pay-as-you-go cost)
 - Deliverables: Interactive notebooks + Circle content
 - Includes token cost estimation guide
 
@@ -120,17 +120,16 @@ ai4tm-masterclass/
 
 ### Token Cost Management
 - Session 1 includes a guide on estimating token consumption and costs
-- Always preview token costs before running expensive models
-- Default to free Gemini API (250 requests/day)
+- Always preview token costs before running expensive models — there is no free tier to fall back on if an estimate is skipped
+- Default to Gemini's lightweight models (Flash / Flash-Lite) for the lowest per-request cost; confirm current pricing and any rate limits at aistudio.google.com, since Google adjusts both
 - Use smaller models for testing and iteration
-- Consider cost-effective alternatives (e.g., Gemini 2.0 Flash vs larger models)
+- Consider cost-effective alternatives (e.g., Flash-Lite vs larger models)
 
 ### Data Privacy
-- Free-tier APIs (Google, OpenAI, etc.) may use data for model training
-- Human reviewers may read inputs/outputs on free tiers
+- Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be used for model training and reviewed by humans; Google's terms say billed Gemini usage on a "Paid tier" project is not used for training and skips human review, but this must be verified per account rather than assumed
 - **Only use public, synthetic, or anonymized data** in course materials
 - Flag this prominently in all setup documentation
-- Paid tiers available for production/confidential data (not required for course)
+- Never assume a provider's current data-use policy — link to the provider's live terms rather than restating a remembered one, since these change
 
 ### Production Failure Modes
 - Session 1 teaches concepts through the lens of production failures
@@ -140,11 +139,11 @@ ai4tm-masterclass/
 
 ## Current SDK Versions (Verified 2025)
 
-### Primary (Free Tier)
+### Primary (Low-Cost, Billing Required)
 - **Google Gemini**: `google-genai` (NOT `google-generativeai` - deprecated Nov 2025)
   - Install: `pip install google-genai`
   - Import: `from google import genai`
-  - Model: `gemini-2.0-flash-exp` (fast, free)
+  - Model: `gemini-2.5-flash-lite` (fast, cheapest available model — confirm current pricing before quoting a figure)
 
 ### Optional (Paid APIs)
 - **OpenAI**: `openai>=1.0.0`
@@ -155,7 +154,7 @@ ai4tm-masterclass/
 
 ## Workflow for Students
 
-1. Get free Gemini API key from aistudio.google.com/apikey
+1. Get a Gemini API key from aistudio.google.com/apikey (requires enabling billing — see Session 1 setup guide)
 2. Open notebook in Colab (one-click from GitHub)
 3. Store API key in Colab Secrets (🔑 icon)
 4. Run notebook cells
@@ -165,9 +164,9 @@ ai4tm-masterclass/
 
 When creating new notebooks:
 1. Design for Google Colab first (default path)
-2. Use `google-genai` for AI calls (free tier)
+2. Use `google-genai` for AI calls (billing required, low pay-as-you-go cost)
 3. Explain technical terms when first used
-4. Include privacy warnings for free-tier usage
+4. Include a privacy note on the provider's current data-use policy for the tier the key is on
 5. Provide working code examples with marketing context
 6. Test in Colab before committing
 7. Include "Open in Colab" badge in README
@@ -176,8 +175,8 @@ When creating new notebooks:
 
 1. **Assuming local setup**: Most students will use Colab, not local Jupyter
 2. **Jargon without explanation**: Define terms like "runtime", "kernel", "cell", "environment"
-3. **Paid APIs as default**: Default to free Gemini, offer paid as optional
-4. **Ignoring privacy**: Always warn about free-tier data usage
+3. **Claiming Gemini is free**: It isn't anymore — billing must be enabled to get a key at all; default to Gemini for its low pay-as-you-go cost and Colab convenience, not because it's free, and offer paid alternatives (OpenAI/Anthropic) as optional
+4. **Ignoring privacy**: Always warn that data-use policy depends on which tier the key is billed under, and verify rather than assume
 5. **Out-of-date package names**: Verify current SDK names (google-genai, not google-generativeai)
 6. **Complex dependencies**: Keep it simple, use Colab's pre-installed libraries when possible
 
@@ -187,6 +186,6 @@ When creating new notebooks:
 - Use `from google.colab import userdata` for API keys (not os.getenv unless local)
 - Explain what each piece of code does in plain language
 - Provide marketing-relevant examples, not generic demos
-- Include privacy warnings when using free-tier APIs
+- Include privacy warnings that reflect the actual tier/billing status of the API key in use, not a remembered "free tier" default
 - Verify package names are current before suggesting installation commands
 - Frame paid APIs as "if you already have a key" not "you need to get"
