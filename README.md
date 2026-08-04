@@ -49,6 +49,7 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 **Topics**: AI compliance and regulatory considerations
 **Content**:
 - [Setting Up and Protecting Your API Keys (Notebook)](session_3/api_key_security.ipynb) / [Text](session_3/api_key_security_circle.md) - Setup and protection guidelines, keeping keys out of GitHub and out of AI chat prompts
+- [Protecting PII When You Use AI (Notebook)](session_3/pii_protection.ipynb) / [Text](session_3/pii_protection_circle.md) - What counts as PII, redacting it before it reaches a prompt, scrubbing a dataframe before an API call
 
 ### Session 4: Synthetic Data
 **Topics**: Generating and using synthetic data for marketing
