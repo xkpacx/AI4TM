@@ -48,8 +48,12 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 ### Session 3: Compliance
 **Topics**: AI compliance and regulatory considerations
 **Content**:
+- [What is the EU AI Act, and Why You Should Care (Text)](session_3/eu_ai_act_intro_circle.md) - Risk categories, provider vs. deployer, the 2026 Digital Omnibus timeline, GDPR overlap
+- [Reviewing Your Own Architecture for Compliance (Text)](session_3/architecture_compliance_worksheet_circle.md) - A reusable six-step worksheet applying the AI Act criteria to any system you build
+- [Explore a Real-World Use Case (Text)](session_3/real_world_use_case_circle.md) - A real enterprise case study (Starbucks EMEA, built at Monks) read against the AI Act criteria
 - [Setting Up and Protecting Your API Keys (Notebook)](session_3/api_key_security.ipynb) / [Text](session_3/api_key_security_circle.md) - Setup and protection guidelines, keeping keys out of GitHub and out of AI chat prompts
 - [Protecting PII When You Use AI (Notebook)](session_3/pii_protection.ipynb) / [Text](session_3/pii_protection_circle.md) - What counts as PII, redacting it before it reaches a prompt, scrubbing a dataframe before an API call
+- [Finding Risk Points in an AI Pipeline (Notebook)](session_3/pipeline_risk_points.ipynb) / [Text](session_3/pipeline_risk_points_circle.md) - Applying DLP principles across a full pipeline, spot-the-vulnerability exercise
 
 ### Session 4: Synthetic Data
 **Topics**: Generating and using synthetic data for marketing

@@ -1,4 +1,4 @@
-# Reviewing your own architecture for compliance
+# Explore a real-world use case
 
 > **Disclaimer.** We are practitioners who build AI systems, not lawyers, data protection officers, or regulatory counsel. What follows is our reading of the law and does not constitute legal advice. Where a decision carries commercial or legal exposure, take it to your legal counsel and your DPO.
 
