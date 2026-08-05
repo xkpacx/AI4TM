@@ -61,16 +61,17 @@ Three checks, run in order. Stop at the first "yes."
 
 ## Step 4: if Article 50 applies, which duties actually bite
 
-Match the system against these:
+Check the block that matches your Step 2 answer. It's common for both to apply, if you're the provider of one part of a system and the deployer of another.
 
-| If the system... | Then... |
-|---|---|
-| talks to people directly (a chatbot, an assistant) | it must make clear they're talking to an AI, unless that would already be obvious to a reasonably attentive person |
-| generates synthetic audio, image, video, or text | the output must be marked in a machine-readable, detectable way |
-| performs emotion recognition or biometric categorization | the people exposed to it must be informed |
-| produces a deepfake, or AI-generated/AI-manipulated text on a matter of public interest | it must be disclosed as such — unless a human reviewed it and someone holds editorial responsibility for the final version |
+**Provider checklist**
+- [ ] Talks to people directly → disclose it's an AI (unless already obvious)
+- [ ] Generates synthetic content → mark it as AI-generated
 
-More than one row can apply to the same system.
+**Deployer checklist**
+- [ ] Emotion or biometric recognition → inform the people it's used on
+- [ ] Publishing a deepfake or public-interest AI text → disclose it (unless human-reviewed with editorial responsibility)
+
+Nothing checked? No Article 50 duty here — re-check if the system's purpose changes.
 
 ---
 
@@ -102,11 +103,11 @@ A register with one row is still worth starting. It gets more valuable every tim
 **System**: an email subject-line generator that writes three options from a campaign brief, and a marketer picks one before sending.
 
 1. **Describe it**: produces generated text (a set of subject lines); input is a short campaign brief with no personal data; triggered by a marketer on demand; a human picks and sends the output. It infers from data (the model wasn't hand-coded with subject-line rules), so it's in scope.
-2. **Role**: built on a third-party model API, used as-is, not rebranded or modified — deployer.
-3. **Risk category**: not manipulative/deceptive by design, doesn't determine access to anything, so it clears Checks A and B. It generates synthetic text — Check C is a yes.
-4. **Article 50 duties**: the "generates synthetic content" row applies; the "public interest text" row likely doesn't, since subject lines aren't matters of public interest, but it's worth a second look if the tool were ever repurposed to draft public statements.
+2. **Role**: the marketing team built this internal tool by calling a third-party model API and put it into service under their own name. That makes them the *provider* of this system — even though they're only a deployer of the underlying model API itself. Easy to get wrong: "we just called an API" feels like deployer, but Step 2's test is about the tool assembled, not the model underneath it.
+3. **Risk category**: not manipulative or deceptive by design, doesn't determine access to anything, so it clears Checks A and B. It generates synthetic text — Check C is a yes.
+4. **Article 50 duties**: as provider, the synthetic-content marking duty is worth taking seriously — even internal-use text can end up on a customer-facing surface unmarked. The interaction-disclosure duty doesn't apply here, since the tool talks to the marketer using it, not to an end customer.
 5. **GDPR overlap**: no personal data in the brief as described; if a future version pulled in real customer names for personalization, this answer changes and the worksheet should be re-run.
-6. **Documented**: one row added to the register, marked reviewed today, no flag needed to legal since nothing above raised one.
+6. **Documented**: one row added to the register, marked reviewed today, flagged to legal for a second opinion on whether the marking duty actually reaches subject lines a human reviews before every send.
 
 ---
 
