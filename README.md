@@ -44,6 +44,7 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 **Topics**: Regression, classification, semantic search
 **Content**:
 - [Evaluation Template (Notebook)](session_2/evaluation_template.ipynb) / [Text](session_2/evaluation_template_circle.md) - Accuracy, precision, recall, F1, confusion matrix
+- [Human-in-the-Loop Validation (Notebook)](session_2/human_in_the_loop.ipynb) / [Text](session_2/human_in_the_loop_circle.md) - BLEU, ROUGE, LLM-as-judge, and deciding where a person needs to check the model's work
 
 ### Session 3: Compliance
 **Topics**: AI compliance and regulatory considerations
