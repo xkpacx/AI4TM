@@ -3,9 +3,42 @@
 This is the text companion to the first half of the synthetic data pipeline notebook. The previous lessons this week covered when synthetic data is the right tool and how a model like TVAE or CTGAN actually learns a table. Neither of those questions matters if the table handed to the model is full of the wrong assumptions. This piece covers what `auto_synthetic_data_platform`'s `Preprocessor` class actually checks before training starts, and what happens when its defaults meet a column they weren't built for.
 
 **Time**: about 20 minutes
-**Cost**: $0 — everything in the companion notebook runs locally or on Colab's own CPU/GPU, no API key involved
+**Cost**: $0. Everything in the companion notebook runs locally or on Colab's own CPU/GPU, no API key involved
 
 > **Disclaimer.** This is educational guidance, not a production recipe. `auto_synthetic_data_platform` is not an official Google product and has had a single release since February 2024. The install steps referenced here are verified end to end as of this writing, but expect to revisit them if the underlying packages move again.
+
+---
+
+## Setting up, once, before any of this
+
+The companion notebook opens with a setup cell, and it's worth running that cell and reading this section before touching anything else this week, in Colab or locally.
+
+`auto_synthetic_data_platform` wraps a library called [synthcity](https://github.com/vanderschaarlab/synthcity) for its actual CTGAN and TVAE models. Neither installs cleanly with the single command a person would normally reach for, `pip install auto_synthetic_data_platform`, because the platform's one and only release, from February 2024, locks in exact versions of `numpy`, `torch`, and a few other libraries that no longer exist for a current Python. Installing `synthcity` on its own also has an independent problem: it resolves a `torch` version that satisfies its own pin, but pulls in a version of `opacus`, an internal dependency, that needs a *newer* `torch` than the one just installed, which crashes on import before any of this week's code runs.
+
+The notebook's setup cell works around both problems in three lines:
+
+```
+pip install -q synthcity
+pip install -q --no-deps auto_synthetic_data_platform
+pip install -q "opacus<1.5" ipython kaleido fastapi uvicorn python-multipart plotly
+```
+
+The middle line is the trick that makes this simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
+
+**In Colab**, that's the whole story: run the setup cell, run the check cell right after it (it just confirms everything imported correctly and tells you in plain language if it didn't), and move on.
+
+**Running this locally instead**, create a virtual environment first, in a terminal, before opening the notebook:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install notebook
+jupyter notebook
+```
+
+Then open the notebook inside that environment and run the setup cell as normal.
+
+> **About the warnings.** The setup cell prints several lines like `auto-synthetic-data-platform 0.0.1 requires numpy==1.23.5, but you have numpy 1.26.4 which is incompatible`. That's expected. Those exact old versions are what's broken; the whole point of `--no-deps` is skipping them in favour of modern, already-installed, mutually compatible ones. The line to actually watch for is the one after: "Setup complete."
 
 ---
 

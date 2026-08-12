@@ -3,19 +3,13 @@
 This is the text companion to the second half of the synthetic data pipeline notebook. The preprocessing piece left off with a clean, correctly typed customer table. This piece trains CTGAN and TVAE against it, using an automatic hyperparameter search rather than hand-tuning, and generates the synthetic table the rest of this week's work depends on.
 
 **Time**: about 25 minutes, most of it spent waiting on training rather than writing code
-**Cost**: $0 — everything here runs on Colab's own CPU/GPU, no API key involved
+**Cost**: $0. Everything here runs on Colab's own CPU/GPU, no API key involved
 
 ---
 
-## Installing the platform, for real this time
+## One setup, already behind you
 
-`auto_synthetic_data_platform` is not an official Google product, and it has had exactly one release since February 2024. That single release hard-pins `numpy==1.23.5`, `torch==1.13.1`, and several other exact versions, none of which still resolve on a current Python. A plain `pip install auto_synthetic_data_platform` fails before a single line of this week's code runs.
-
-A second, independent problem sits inside `synthcity` itself, the library the platform wraps for its actual models. A plain `pip install synthcity` resolves a `torch` version that satisfies synthcity's own pin, but also pulls in a version of `opacus`, a differential-privacy dependency used internally, that needs a newer `torch` than the one just installed. The result is a crash on import, before any training, any preprocessing, anything.
-
-The companion notebook's install cell works around both problems: install `synthcity` unpinned so modern dependencies resolve correctly, install the platform straight from its GitHub source with its exact-version pins relaxed, and pin `opacus` down to a version that predates the conflicting requirement. This was verified end to end with a real training run while this piece was written, not assumed to work from reading the package's own documentation.
-
-> **Worth knowing before Colab, not after.** If this exact combination breaks again by the time this reaches Circle, it's because one of these libraries shipped a new version with a new incompatibility, the same category of problem that broke the naive install in the first place. Rerunning the install cell with the pins it specifies, rather than a plain `pip install`, is the fix either way.
+The environment setup for this whole week, Colab or local, happens once, in the notebook's very first cell, and the preprocessing piece covers exactly what it does and why. If that cell hasn't been run yet, or its check cell didn't print "Setup complete," that's the place to go before this piece, not this one.
 
 ---
 
