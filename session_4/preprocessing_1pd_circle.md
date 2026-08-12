@@ -18,12 +18,11 @@ The companion notebook opens with a setup cell, and it's worth running that cell
 The notebook's setup cell works around both problems in three lines:
 
 ```
-pip install -q synthcity
+pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_4/requirements.txt
 pip install -q --no-deps auto_synthetic_data_platform
-pip install -q "opacus<1.5" ipython kaleido fastapi uvicorn python-multipart plotly
 ```
 
-The middle line is the trick that makes this simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
+The first line installs everything this week needs from a single, version-controlled list, the same list whether you're in Colab or running locally. The second line is the one exception, and it's the trick that makes the rest simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
 
 **In Colab**, that's the whole story: run the setup cell, run the check cell right after it (it just confirms everything imported correctly and tells you in plain language if it didn't), and move on. Colab needs no environment setup of its own, since every Colab session already runs in its own disposable machine; installing something there never affects anything else.
 

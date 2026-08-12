@@ -1,0 +1,12 @@
+# Session 2 dependencies.
+# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_2/requirements.txt
+# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+
+google-genai
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+nltk
+rouge-score

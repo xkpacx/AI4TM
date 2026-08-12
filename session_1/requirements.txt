@@ -1,0 +1,15 @@
+# Session 1 dependencies.
+# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_1/requirements.txt
+# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+
+google-genai
+pandas
+numpy
+matplotlib
+
+# Only needed if you're using the optional paid-API sections in setup_guide.ipynb
+openai
+anthropic
+
+# Only needed for the local .env instructions in setup_guide.ipynb
+python-dotenv

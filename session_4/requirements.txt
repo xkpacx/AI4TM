@@ -1,0 +1,21 @@
+# Session 4 dependencies.
+# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_4/requirements.txt
+# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+#
+# One exception, handled separately in the notebook's setup cell: auto_synthetic_data_platform.
+# Its only PyPI release hard-pins broken exact versions, so it's installed with --no-deps
+# instead of going through this file -- see the notebook's setup cell for exactly why.
+
+synthcity
+opacus<1.5
+ipython
+kaleido
+fastapi
+uvicorn
+python-multipart
+plotly
+pandas
+numpy
+huggingface_hub
+scikit-learn
+xgboost

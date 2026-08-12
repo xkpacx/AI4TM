@@ -1,0 +1,8 @@
+# Session 3 dependencies.
+# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_3/requirements.txt
+# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+#
+# api_key_security.ipynb needs nothing beyond the standard library (re, pathlib).
+# pii_protection.ipynb and pipeline_risk_points.ipynb need pandas.
+
+pandas
