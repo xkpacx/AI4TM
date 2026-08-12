@@ -1,6 +1,7 @@
 # Session 4 dependencies.
-# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_4/requirements.txt
-# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+# Installed the same way in Colab or locally: pip install -q -r requirements.txt
+# (run from inside this folder, after cloning the repo -- Colab needs the repo
+# cloned first too, since it does not fetch sibling files just from opening a notebook)
 #
 # One exception, handled separately in the notebook's setup cell: auto_synthetic_data_platform.
 # Its only PyPI release hard-pins broken exact versions, so it's installed with --no-deps

@@ -1,6 +1,7 @@
 # Session 2 dependencies.
-# Colab: !pip install -q -r https://raw.githubusercontent.com/xkpacx/AI4TM/main/session_2/requirements.txt
-# Local (uv or pip), from inside this folder: pip install -q -r requirements.txt
+# Installed the same way in Colab or locally: pip install -q -r requirements.txt
+# (run from inside this folder, after cloning the repo -- Colab needs the repo
+# cloned first too, since it does not fetch sibling files just from opening a notebook)
 
 google-genai
 pandas
