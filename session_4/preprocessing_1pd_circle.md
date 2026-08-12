@@ -25,18 +25,22 @@ pip install -q "opacus<1.5" ipython kaleido fastapi uvicorn python-multipart plo
 
 The middle line is the trick that makes this simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
 
-**In Colab**, that's the whole story: run the setup cell, run the check cell right after it (it just confirms everything imported correctly and tells you in plain language if it didn't), and move on.
+**In Colab**, that's the whole story: run the setup cell, run the check cell right after it (it just confirms everything imported correctly and tells you in plain language if it didn't), and move on. Colab needs no environment setup of its own, since every Colab session already runs in its own disposable machine; installing something there never affects anything else.
 
-**Running this locally instead**, create a virtual environment first, in a terminal, before opening the notebook:
+**Running this locally instead**, install [uv](https://docs.astral.sh/uv/) once, in a terminal, before opening the notebook:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install notebook
-jupyter notebook
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows (PowerShell): powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Then open the notebook inside that environment and run the setup cell as normal.
+`uv` manages Python itself, so this works even without Python already installed. Then, each time you open this notebook, run this from inside the `session_4` folder instead of a plain `jupyter notebook`:
+
+```bash
+uv run --with jupyter jupyter lab
+```
+
+That builds a fresh, isolated environment for this session automatically, every time, the same disposable-per-session guarantee Colab gives you for free, without a venv to create by hand or an environment to remember to activate. Open the notebook in the browser tab it launches and run the setup cell as normal.
 
 > **About the warnings.** The setup cell prints several lines like `auto-synthetic-data-platform 0.0.1 requires numpy==1.23.5, but you have numpy 1.26.4 which is incompatible`. That's expected. Those exact old versions are what's broken; the whole point of `--no-deps` is skipping them in favour of modern, already-installed, mutually compatible ones. The line to actually watch for is the one after: "Setup complete."
 
