@@ -54,21 +54,18 @@ The repository contains educational content, notebooks, and guides for teaching 
 
 ### Optional: Local Development (Advanced Users Only)
 
-Only for experienced users who prefer local control.
+Only for experienced users who prefer local control. As of 2026-08, new local-setup instructions should use [uv](https://docs.astral.sh/uv/) rather than a manually created `venv`, since it gives each session its own disposable, isolated environment (matching the isolation Colab already provides for free) without the student needing to create or activate anything by hand, and it manages Python itself if none is installed:
 
 ```bash
-# Create virtual environment (isolated Python installation)
-python -m venv venv
-source venv/bin/activate  # macOS/Linux
-# or
-venv\Scripts\activate  # Windows
+# One-time: install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh      # macOS/Linux
+# powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Launch Jupyter
-jupyter notebook
+# Each time, from inside the session's folder:
+uv run --with jupyter jupyter lab
 ```
+
+**Note:** sessions 1-3's setup guides still document the older `python -m venv` + `pip install -r requirements.txt` flow, predating this decision. They haven't been retrofitted yet — check with the maintainer before assuming they should be.
 
 ## Repository Structure
 
