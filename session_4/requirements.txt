@@ -1,0 +1,30 @@
+# Session 4 dependencies -- installed locally via `uv pip install -r requirements.txt`
+# (see the notebook's setup cell for the terminal commands). Colab installs from an
+# explicit package list written directly into that same setup cell instead of this
+# file, since opening the notebook via "Open in Colab" never has this file alongside
+# it. Keep the two in sync if you add or remove something here.
+
+# ipykernel: not used by the notebook itself, only needed so VS Code (or any
+# editor) can register this environment as a selectable Jupyter kernel. Colab
+# never reads this line since it has its own kernel already.
+ipykernel
+
+# One exception, handled separately in the notebook's setup cell: auto_synthetic_data_platform.
+# Its only PyPI release hard-pins broken exact versions, so it's installed with --no-deps
+# instead of going through this file -- see the notebook's setup cell for exactly why.
+
+synthcity
+opacus<1.5
+ipython
+kaleido
+fastapi
+uvicorn
+python-multipart
+plotly
+nbformat  # plotly needs this to render figures inline in Jupyter (>=4.2.0); not
+          # pulled in automatically -- confirmed missing without this line.
+pandas
+numpy
+huggingface_hub
+scikit-learn
+xgboost

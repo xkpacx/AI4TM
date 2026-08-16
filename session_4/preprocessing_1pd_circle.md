@@ -15,17 +15,16 @@ The companion notebook opens with a setup cell, and it's worth running that cell
 
 `auto_synthetic_data_platform` wraps a library called [synthcity](https://github.com/vanderschaarlab/synthcity) for its actual CTGAN and TVAE models. Neither installs cleanly with the single command a person would normally reach for, `pip install auto_synthetic_data_platform`, because the platform's one and only release, from February 2024, locks in exact versions of `numpy`, `torch`, and a few other libraries that no longer exist for a current Python. Installing `synthcity` on its own also has an independent problem: it resolves a `torch` version that satisfies its own pin, but pulls in a version of `opacus`, an internal dependency, that needs a *newer* `torch` than the one just installed, which crashes on import before any of this week's code runs.
 
-The notebook's setup cell works around both problems in three lines:
+The notebook's setup cell works around both problems in two lines:
 
 ```
-pip install -q synthcity
+pip install -q -r requirements.txt
 pip install -q --no-deps auto_synthetic_data_platform
-pip install -q "opacus<1.5" ipython kaleido fastapi uvicorn python-multipart plotly
 ```
 
-The middle line is the trick that makes this simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
+The first line installs everything this week needs from a single, version-controlled list sitting right next to the notebook in this repo, the same list and the same command whether the notebook is running in Colab or locally. The second line is the one exception, and it's the trick that makes the rest simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
 
-**In Colab**, that's the whole story: run the setup cell, run the check cell right after it (it just confirms everything imported correctly and tells you in plain language if it didn't), and move on. Colab needs no environment setup of its own, since every Colab session already runs in its own disposable machine; installing something there never affects anything else.
+That first line only finds `requirements.txt` if the repo has actually been cloned into wherever the notebook is running, since it reads a local file, not something fetched over the internet. Locally, that's already true by the time the notebook is open, since cloning the repo is how the notebook got there in the first place. In Colab, the same applies: clone the repo before running the setup cell, the same repo the notebook itself came from, and `requirements.txt` is right there once that's done.
 
 **Running this locally instead**, install [uv](https://docs.astral.sh/uv/) once, in a terminal, before opening the notebook:
 

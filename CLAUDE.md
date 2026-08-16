@@ -54,18 +54,20 @@ The repository contains educational content, notebooks, and guides for teaching 
 
 ### Optional: Local Development (Advanced Users Only)
 
-Only for experienced users who prefer local control. As of 2026-08, new local-setup instructions should use [uv](https://docs.astral.sh/uv/) rather than a manually created `venv`, since it gives each session its own disposable, isolated environment (matching the isolation Colab already provides for free) without the student needing to create or activate anything by hand, and it manages Python itself if none is installed:
+Only for experienced users who prefer local control. As of 2026-08, new local-setup instructions should use [uv](https://docs.astral.sh/uv/) rather than a manually created `venv`, since it gives each session its own disposable, isolated environment (matching the isolation Colab already provides for free) without the student needing to create or activate anything by hand, and it manages Python itself if none is installed. As of 2026-08-16, every session notebook's own setup cell auto-detects Colab vs. local (`import google.colab`) and installs accordingly, in one of two ways:
+
+- **Colab**: installs from an explicit package list written directly into that cell. Not from `session_N/requirements.txt` — opening a notebook via the "Open in Colab" badge loads only that one file, not the rest of the repository, so there's no sibling file to read. Keep this list in sync with `session_N/requirements.txt` by hand when either changes.
+- **Local (any IDE — VS Code, PyCharm, etc.)**: installs from `session_N/requirements.txt`, one persistent `uv`-managed venv per session, created once from a terminal before the notebook is opened:
 
 ```bash
-# One-time: install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh      # macOS/Linux
-# powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
-
-# Each time, from inside the session's folder:
-uv run --with jupyter jupyter lab
+cd session_N
+uv venv
+uv pip install -r requirements.txt   # requirements.txt already lists ipykernel
 ```
 
-**Note:** sessions 1-3's setup guides still document the older `python -m venv` + `pip install -r requirements.txt` flow, predating this decision. They haven't been retrofitted yet — check with the maintainer before assuming they should be.
+Then point the IDE's kernel/interpreter picker at `session_N/.venv/bin/python` (`session_N\.venv\Scripts\python.exe` on Windows). The notebook's own setup cell looks up `requirements.txt` by directory (checking `session_N` is either the cwd, a child, or a sibling of cwd), not by bare filename, since the repo root also has its own `requirements.txt` for whole-repo setup that a naive filename search could grab by mistake. A lighter, IDE-free alternative (`uv run --with jupyter jupyter lab`, run from inside the session folder) still works too, for a disposable browser-tab session instead of a persistent one a kernel picker points at.
+
+Full walkthrough lives in `session_1/setup_guide.ipynb`'s "Optional B" section; every other notebook points back to it rather than duplicating the explanation, though each keeps its own copy of the actual uv commands and Colab package list inline (checked against Krasimir's explicit preference for this exact split, 2026-08-16).
 
 ## Repository Structure
 
