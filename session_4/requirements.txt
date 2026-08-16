@@ -1,7 +1,8 @@
-# Session 4 dependencies.
-# Installed the same way in Colab or locally: pip install -q -r requirements.txt
-# (run from inside this folder, after cloning the repo -- Colab needs the repo
-# cloned first too, since it does not fetch sibling files just from opening a notebook)
+# Session 4 dependencies -- installed locally via `uv pip install -r requirements.txt`
+# (see the notebook's setup cell for the terminal commands). Colab installs from an
+# explicit package list written directly into that same setup cell instead of this
+# file, since opening the notebook via "Open in Colab" never has this file alongside
+# it. Keep the two in sync if you add or remove something here.
 
 # ipykernel: not used by the notebook itself, only needed so VS Code (or any
 # editor) can register this environment as a selectable Jupyter kernel. Colab
@@ -20,6 +21,8 @@ fastapi
 uvicorn
 python-multipart
 plotly
+nbformat  # plotly needs this to render figures inline in Jupyter (>=4.2.0); not
+          # pulled in automatically -- confirmed missing without this line.
 pandas
 numpy
 huggingface_hub
