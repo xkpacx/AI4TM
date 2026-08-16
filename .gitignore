@@ -227,3 +227,6 @@ session_4/experiment/
 session_4/experiment_tvae/
 session_4/experiment_ctgan/
 session_4/synthetic_customer_table.csv
+# synthcity's own default cache dir (e.g. its privacy-metric model checkpoints),
+# not something this notebook creates itself:
+session_4/workspace/
