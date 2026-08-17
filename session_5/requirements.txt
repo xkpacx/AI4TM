@@ -1,0 +1,17 @@
+# Session 5 dependencies.
+# Installed the same way in Colab or locally: pip install -q -r requirements.txt
+# (run from inside this folder, after cloning the repo -- Colab needs the repo
+# cloned first too, since it does not fetch sibling files just from opening a notebook)
+
+# ipykernel: not used by the notebook itself, only needed so VS Code (or any
+# editor) can register this environment as a selectable Jupyter kernel. Colab
+# never reads this line since it has its own kernel already.
+ipykernel
+
+google-genai
+neo4j
+
+# Only needed if you're using the optional paid-API sections (LLM_PROVIDER = "openai"
+# or "anthropic" in setup_guide.ipynb / knowledge_graph_pipeline.ipynb)
+openai
+anthropic
