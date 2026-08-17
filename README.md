@@ -60,7 +60,10 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 **Topics**: Generating and using synthetic data for marketing
 
 ### Session 5: Knowledge Graphs
-**Topics**: Building knowledge graphs for marketing insights
+**Topics**: Nodes, edges, and Cypher; turning a set of documents into a graph with an LLM and merging the duplicates it produces; what a graph answers that a table struggles with; GraphRAG and checking whether an answer is actually grounded in the graph
+**Content**:
+- [Setup: your knowledge graph environment (Notebook)](session_5/setup_guide.ipynb) / [Text](session_5/setup_guide_circle.md) - Neo4j AuraDB Free signup, connecting the graph database, and a swappable `LLM_PROVIDER` config so the rest of the week's notebook can switch model providers by changing one value
+- [Building and querying a knowledge graph (Notebook)](session_5/knowledge_graph_pipeline.ipynb) / [Text](session_5/knowledge_graph_pipeline_circle.md) - Extracting entities and relationships from a set of internal documents, merging duplicate entities, loading and querying in Cypher, and GraphRAG with a groundedness check
 
 ### Session 6: Agentic Workflows
 **Topics**: Creating autonomous AI agents for marketing automation
