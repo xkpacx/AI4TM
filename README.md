@@ -66,7 +66,10 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 - [Building and querying a knowledge graph (Notebook)](session_5/knowledge_graph_pipeline.ipynb) / [Text](session_5/knowledge_graph_pipeline_circle.md) - Extracting entities and relationships from a set of internal documents, merging duplicate entities, loading and querying in Cypher, and GraphRAG with a groundedness check
 
 ### Session 6: Agentic Workflows
-**Topics**: Creating autonomous AI agents for marketing automation
+**Topics**: Search intent taxonomies, clustering a search performance export into content gaps, an agent (tools + a loop) that reads that table, generating a landing page brief and evaluating it against the Week 3 template
+**Content**:
+- [Building an agentic content pipeline (Notebook)](session_6/agentic_content_pipeline.ipynb) / [Text](session_6/agentic_content_pipeline_circle.md) - Rebuilding a compact content-gap table, then a hand-written tool-calling loop (three read-only tools, two visible stopping conditions) that turns it into grounded content recommendations
+- [Generating and evaluating a landing page brief (Notebook)](session_6/landing_page_brief_generator.ipynb) / [Text](session_6/landing_page_brief_generator_circle.md) - A guardrailed brief generator for one content gap, scored by reusing Session 2's evaluation template against a mix of LLM-judged and objectively-recomputed criteria
 
 ## 🛠️ Tools Used
 
