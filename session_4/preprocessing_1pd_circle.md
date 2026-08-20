@@ -1,6 +1,6 @@
-# Preprocessing real first-party data before it meets a model
+# Preparing a real dataset, and setting the baseline
 
-This is the text companion to the first half of the synthetic data pipeline notebook. The previous lessons this week covered when synthetic data is the right tool and how a model like TVAE or CTGAN actually learns a table. Neither of those questions matters if the table handed to the model is full of the wrong assumptions. This piece covers what `auto_synthetic_data_platform`'s `Preprocessor` class actually checks before training starts, and what happens when its defaults meet a column they weren't built for.
+This is the text companion to the first half of the synthetic data pipeline notebook. The previous lessons this week covered when synthetic data is the right tool and how a model like TVAE or CTGAN actually learns a table. Neither of those questions matters if the table handed to the model is full of the wrong assumptions. This piece covers what `auto_synthetic_data_platform`'s `Preprocessor` class actually checks before training starts, what happens when its defaults meet a column they weren't built for, and — before CTGAN or TVAE enter the picture at all — how good a model trained directly on the real data actually is.
 
 **Time**: about 20 minutes
 **Cost**: $0. Everything in the companion notebook runs locally or on Colab's own CPU/GPU, no API key involved
@@ -97,9 +97,28 @@ That last line matters beyond this one dataset. The same check that flags a rare
 
 ---
 
+## Setting the baseline
+
+Before CTGAN or TVAE touch this table at all, it's worth answering a plainer question first: how good is a propensity model when it's trained directly on the real data, no synthetic step involved? That number is what everything else this week gets measured against. A synthetic table only earns its place in this pipeline if a model trained on it comes reasonably close to matching it — there'd be no point otherwise.
+
+Training a plain XGBoost classifier on this real, preprocessed customer table (the same stratified sample from above, roughly 6.3% positive) and testing it against real, held-out customers, scored the way Session 2's rare-class lessons ask for — precision, recall, and F1, not accuracy alone:
+
+| Metric | Score |
+|---|---|
+| Accuracy | 0.934 |
+| Precision | 0.273 |
+| Recall | 0.030 |
+| F1 | 0.054 |
+
+Read the accuracy number first, and then set it aside. A model that predicted "no" for every single customer would already score above 93%, since well under 10% of customers in this table bought again. The number that actually matters is recall, and it's genuinely weak: 0.030 means this model catches roughly 3 in every 100 customers who really did come back. That's not a strong model. It's a real, if faint, signal on a genuinely hard, rare-event problem — and it's the bar a synthetic-trained model has to clear later this session, not some idealized 90%+ target.
+
+> **Where this number comes from.** This exact result is produced by the propensity-model cell in the notebook's evaluation section, later in this week's hands-on work — trained on real data only, before the synthetic table is ever compared against it. It's introduced here, ahead of that cell, because "how good is real-only" is worth knowing before spending any time tuning CTGAN or TVAE, not after.
+
+---
+
 ## Wrap-up
 
-Declaring column types correctly, handling missing values, and applying outlier removal where it belongs rather than everywhere by default, all of it happens before a single synthetic row gets generated, and all of it changes what the model downstream actually learns. The next piece in this session picks up from here: training and auto-tuning CTGAN and TVAE against the table this preprocessing step produced.
+Declaring column types correctly, handling missing values, applying outlier removal where it belongs rather than everywhere by default, and knowing what a real-only model can and can't do on this table — all of it happens before a single synthetic row gets generated, and all of it changes what the model downstream actually learns, and what "good enough" should mean when synthetic data enters the picture. The next piece in this session picks up from here: training and auto-tuning CTGAN and TVAE against the table this preprocessing step produced.
 
 **Also in Session 4**: when to use synthetic data at all, and what a synthetic dataset does and doesn't protect once it exists.
 
