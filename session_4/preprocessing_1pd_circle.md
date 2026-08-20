@@ -101,7 +101,7 @@ That last line matters beyond this one dataset. The same check that flags a rare
 
 Before CTGAN or TVAE touch this table at all, it's worth answering a plainer question first: how good is a propensity model when it's trained directly on the real data, no synthetic step involved? That number is what everything else this week gets measured against. A synthetic table only earns its place in this pipeline if a model trained on it comes reasonably close to matching it — there'd be no point otherwise.
 
-Training a plain XGBoost classifier on this real, preprocessed customer table (the same stratified sample from above, roughly 6.3% positive) and testing it against real, held-out customers, scored the way Session 2's rare-class lessons ask for — precision, recall, and F1, not accuracy alone:
+Training a simple predictive model on this real, preprocessed customer table (the same stratified sample from above, roughly 6.3% positive) and testing it against real, held-out customers, scored the way Session 2's rare-class lessons ask for — precision, recall, and F1, not accuracy alone:
 
 | Metric | Score |
 |---|---|
@@ -112,7 +112,7 @@ Training a plain XGBoost classifier on this real, preprocessed customer table (t
 
 Read the accuracy number first, and then set it aside. A model that predicted "no" for every single customer would already score above 93%, since well under 10% of customers in this table bought again. The number that actually matters is recall, and it's genuinely weak: 0.030 means this model catches roughly 3 in every 100 customers who really did come back. That's not a strong model. It's a real, if faint, signal on a genuinely hard, rare-event problem — and it's the bar a synthetic-trained model has to clear later this session, not some idealized 90%+ target.
 
-> **Where this number comes from.** This exact result is produced by the propensity-model cell in the notebook's evaluation section, later in this week's hands-on work — trained on real data only, before the synthetic table is ever compared against it. It's introduced here, ahead of that cell, because "how good is real-only" is worth knowing before spending any time tuning CTGAN or TVAE, not after.
+> **Where this number comes from.** This exact result comes from later in this week's hands-on notebook, trained on real data only, before the synthetic table is ever compared against it. It's introduced here, ahead of that point, because "how good is real-only" is worth knowing before spending any time tuning CTGAN or TVAE, not after.
 
 ---
 
