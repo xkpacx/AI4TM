@@ -63,7 +63,7 @@ Metrics, whichever kind, only matter once they change what happens next. Applied
 
 A category can fail either question on its own. A high-stakes category with excellent recall still deserves a checkpoint, because "usually right" isn't the same guarantee as "always right" when the cost of being wrong is high. A low-stakes category with poor recall doesn't need a person watching every single item, but it does need someone to notice before the miss rate quietly gets worse.
 
-The course notebook builds this as a `route_for_review()` function: high-stakes categories always route to mandatory review regardless of recall; categories below a set recall threshold route to mandatory review too; everything in between gets a spot-check sample; the rest auto-approves. Applied to five example categories, it correctly flags Returns & Refunds for mandatory review purely because it's high-stakes (its recall alone would have cleared it), and flags Pricing & Billing for mandatory review purely because its recall is too low — two different reasons landing on the same outcome.
+The course notebook builds this as a `route_for_review()` function: high-stakes categories always route to mandatory review regardless of recall; categories below a set recall threshold route to mandatory review too; everything in between gets a spot-check sample; the rest auto-approves. Applied to five example categories, it correctly flags Returns & Refunds for mandatory review purely because it's high-stakes (its recall of 0.93 sits in the middle band, so recall alone would have only routed it to a spot-check sample), and flags Pricing & Billing for mandatory review purely because its recall is too low — two different reasons landing on the same outcome.
 
 ---
 
@@ -75,11 +75,13 @@ A simple version: review 100% of anything routed to mandatory review, a fixed pe
 
 The course notebook implements this as a `build_review_queue()` function: every mandatory-review row goes in, half of every spot-check row goes in (a rate that's a deliberate choice, not a fixed rule), and nothing from auto-approve does.
 
+A queue is only a to-do list, not the review itself — someone still has to open each row and decide. The notebook closes that loop with a `record_review()` function: it takes one queued row and a verdict of agree, disagree (with a corrected label), or ambiguous, logs it, and groups the log by category to produce the disagreement rate the section above says to watch. That's the number that turns "log every disagreement" from advice into something a reviewer can actually act on.
+
 ---
 
 ## Wrap-up
 
-Two separate skills, both extending what the evaluation template started. For generative tasks with no fixed right answer, BLEU and ROUGE work only when there's a genuine reference text to compare against, and LLM-as-judge fills the gap everywhere else, once validated against real human ratings. For any task with metrics, per-category precision and recall, plus a plain judgment call about what's high-stakes, decide where a human checkpoint is mandatory, where a sample is enough, and where the model's track record earns it a pass.
+Two separate skills, both extending what the evaluation template started. For generative tasks with no fixed right answer, BLEU and ROUGE work only when there's a genuine reference text to compare against, and LLM-as-judge fills the gap everywhere else, once validated against real human ratings. For any task with metrics, per-category precision and recall, plus a plain judgment call about what's high-stakes, decide where a human checkpoint is mandatory, where a sample is enough, and where the model's track record earns it a pass. Once that queue exists, `record_review()` is what actually closes the loop.
 
 Neither replaces judgment. The recall thresholds and the high-stakes list in the course notebook are placeholders; the actual numbers are a business decision, made by the same people evaluation itself is for.
 
