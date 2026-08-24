@@ -2,7 +2,7 @@
 
 *Reading the evaluation report, and putting it to the actual test*
 
-This is the text companion to the final section of the synthetic data pipeline notebook. The previous piece trained and tuned CTGAN and TVAE against a real customer table. This piece reads what the search actually measured, and then goes further than a report: it trains the propensity model this whole exercise was built for, once on the synthetic table and once on the real one, and checks both against real, held-out customers.
+The previous piece trained and tuned CTGAN and TVAE against a real customer table. This piece is where that work gets judged: reading what the search actually measured, and then going further than a report by training the propensity model this whole exercise was built for, once on the synthetic table and once on the real one, and checking both against real, held-out customers.
 
 **Time**: about 20 minutes
 **Cost**: $0
@@ -22,11 +22,11 @@ These fight each other by construction, the previous lessons this week already m
 
 ---
 
-## What actually happened when the search was skipped
+## Why skipping the tuned search is risky
 
-The tuned search in the previous piece runs multiple full training passes and keeps whichever hyperparameters score best on the suitability metric specifically. It's worth seeing what happens without that step, because the difference is the whole argument for doing it.
+The tuned search in the previous piece runs multiple full training passes and keeps whichever hyperparameters score best on the suitability metric specifically, precisely because a single untuned attempt can fail in a way that's easy to miss: a synthetic table can look reasonable on the surface while getting the one thing this pipeline actually needs completely wrong. Seeing that failure happen once, on a real attempt, is the whole argument for running the tuned search at all rather than accepting whatever a first, quick fit produces.
 
-A single CTGAN fit, 150 iterations, no search, no tuning, trained on this week's real customer data (a 6.3% positive rate after the stratified sampling from the preprocessing piece) produced a synthetic table with a **1.5%** positive rate. Training the exact same propensity model on each, and testing both against the same real, held-out customers:
+A single CTGAN fit, 150 iterations, no search, no tuning, trained on this week's real customer data (a 6.3% positive rate after the stratified sampling from the preprocessing piece), produced a synthetic table with a **1.5%** positive rate. Training the exact same propensity model on each, and testing both against the same real, held-out customers:
 
 | Trained on | Accuracy | Precision | Recall | F1 |
 |---|---|---|---|---|
