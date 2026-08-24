@@ -28,10 +28,3 @@ numpy
 huggingface_hub
 scikit-learn
 xgboost
-
-# Only needed by llm_prompted_synthetic_data.ipynb, the LLM-comparison notebook,
-# not synthetic_data_pipeline.ipynb. Kept in this one shared file anyway, per
-# this session's existing convention of one requirements.txt per session folder.
-google-genai
-pydantic
-python-dotenv
