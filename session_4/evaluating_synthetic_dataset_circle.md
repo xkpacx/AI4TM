@@ -45,7 +45,7 @@ This isn't a failure of the approach. It's what happens when a general-purpose g
 
 Even a well-tuned synthetic table isn't anonymous in some absolute sense, and its privacy protection is a property of this specific dataset and configuration, not of the method in general.
 
-What it protects: individual customers. A well-tuned model makes it harder to point at a synthetic row and recover a specific real person, and k-anonymity is one way of measuring how much harder.
+What it protects: individual customers. A well-tuned model makes it harder to point at a synthetic row and recover a specific real person, and k-anonymity is one way of measuring how much harder. A k of 5 on this table, for illustration, would mean every synthetic customer shares its region, payment type, and product category with at least four other synthetic customers, so no single row stands out from the group it's grouped with. A k of 1 is the opposite case: a row unique enough on those columns to point back to one person.
 
 What it does not protect: the organisation's own aggregate patterns. Conversion rate, the shape of the payment-type mix, average basket value, seasonality in order volume, all of it survives into the synthetic table by design, because matching those patterns is the entire point of training the model in the first place. A synthetic dataset protects the people described in the data more than it protects the business the data belongs to, exactly the asymmetry this session's earlier lesson named.
 
