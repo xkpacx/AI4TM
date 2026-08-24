@@ -18,7 +18,7 @@ An evaluation report from this platform always answers four separate questions, 
 - **Suitability**, listed as performance, asks the question this week's use case actually depends on: does a model trained on the synthetic data make accurate predictions on real customers? The example metric trains a gradient-boosted model (XGBoost) on the synthetic set and tests it on the real one, which is exactly this week's propensity question.
 - **Privacy** asks how exposed an individual synthetic record is, measured here by k-anonymity: a dataset is k-anonymous when every record shares its combination of identifying attributes with at least k-1 others.
 
-These fight each other by construction, the previous lessons this week already made that case, and a report with a great fidelity score and a mediocre suitability score is not a report to average together. It's a sign that whatever made the distributions match didn't preserve the specific relationship this model needs.
+These fight each other by construction, the previous lessons this week already made that case, and a report with a great fidelity score and a mediocre suitability score is a sign that whatever made the distributions match didn't preserve the specific relationship this model needs, not a report to average into one combined verdict.
 
 ---
 
@@ -35,7 +35,7 @@ A single CTGAN fit, 150 iterations, no search, no tuning, trained on this week's
 
 Read the accuracy column first, and then notice how little it says. A model that predicts "no" for every single customer already scores above 93%, because well under 10% of customers in this table bought again. The real model at least catches a handful of them; the untuned synthetic model catches none, a complete collapse of the exact class the whole exercise cares about, hidden entirely behind a headline number that looks fine.
 
-This isn't a failure of the approach. It's what happens when a general-purpose generative model is asked to learn a rare pattern from a small number of examples in too few training passes, exactly the risk the earlier lesson in this session named directly: a value the model barely sees during training is a value it will barely produce. The tuned search exists specifically to catch this, since it runs multiple trials and keeps whichever one actually scores well on suitability rather than accepting the first fit that finishes.
+This is what happens when a general-purpose generative model is asked to learn a rare pattern from a small number of examples in too few training passes, not a failure of the approach itself, exactly the risk the earlier lesson in this session named directly: a value the model barely sees during training is a value it will barely produce. The tuned search exists specifically to catch this, since it runs multiple trials and keeps whichever one actually scores well on suitability rather than accepting the first fit that finishes.
 
 > **What this comparison licenses, and what it doesn't.** A close result here, once the search has actually run, says this model, trained this way, on this target column, transfers from synthetic to real. It says nothing about a different target, a different model family, or an exploratory analysis run later on the same synthetic file. This is the same boundary the first lesson this session named: general-purpose models like CTGAN and TVAE carry no validity guarantee for an analysis that wasn't actually tested.
 

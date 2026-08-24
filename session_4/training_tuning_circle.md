@@ -33,7 +33,7 @@ Two trials from an actual run of this search make "each trial samples a combinat
 
 Two plots make the search inspectable rather than a black box that hands back a single winner. The parallel-coordinates plot draws one line per trial across every hyperparameter axis and the score it achieved, so the two trials above would show up as two such lines, and a band of lines converging in the same region of an axis shows where the good scores actually came from. The importances plot ranks each hyperparameter by how much varying it moved the score, separating the settings that mattered on this dataset, like that batch size, from the ones that could have stayed at their defaults the whole time.
 
-Between CTGAN and TVAE, the more useful comparison isn't the search's blended objective, it's the metric this week's actual use case depends on, its suitability score: the check that trains a model on the synthetic data and tests it on real customers. A model that scores well on fidelity and privacy but poorly there hasn't solved this week's problem, whatever its other numbers say.
+Between CTGAN and TVAE, the more useful comparison is the metric this week's actual use case depends on, its suitability score, the check that trains a model on the synthetic data and tests it on real customers, rather than the search's blended objective. A model that scores well on fidelity and privacy but poorly there hasn't solved this week's problem, whatever its other numbers say.
 
 ---
 
