@@ -1,4 +1,6 @@
-# Preparing a real dataset, and setting the baseline
+# Prepare a synthetic dataset
+
+*Preparing a real dataset, and setting the baseline*
 
 This is the text companion to the first half of the synthetic data pipeline notebook. The previous lessons this week covered when synthetic data is the right tool and how a model like TVAE or CTGAN actually learns a table. Neither of those questions matters if the table handed to the model is full of the wrong assumptions. This piece covers what `auto_synthetic_data_platform`'s `Preprocessor` class actually checks before training starts, what happens when its defaults meet a column they weren't built for, and — before CTGAN or TVAE enter the picture at all — how good a model trained directly on the real data actually is.
 
@@ -11,29 +13,11 @@ This is the text companion to the first half of the synthetic data pipeline note
 
 ## Setting up, once, before any of this
 
-The companion notebook opens with a setup cell, and it's worth running that cell and reading this section before touching anything else this week, in Colab or locally.
+The companion notebook opens with a setup cell. Run it before touching anything else this week, in Colab or locally, and watch for the line "Setup complete" once it finishes.
 
-`auto_synthetic_data_platform` wraps a library called [synthcity](https://github.com/vanderschaarlab/synthcity) for its actual CTGAN and TVAE models. Neither installs cleanly with the single command a person would normally reach for, `pip install auto_synthetic_data_platform`, because the platform's one and only release, from February 2024, locks in exact versions of `numpy`, `torch`, and a few other libraries that no longer exist for a current Python. Installing `synthcity` on its own also has an independent problem: it resolves a `torch` version that satisfies its own pin, but pulls in a version of `opacus`, an internal dependency, that needs a *newer* `torch` than the one just installed, which crashes on import before any of this week's code runs.
+This week's toolkit, `auto_synthetic_data_platform`, is the kind of package that doesn't install cleanly with the single command a person would normally reach for — its one and only release is from February 2024, and it locks in old versions of a few libraries that no longer exist for a current Python. The setup cell already works around this, installing everything from a version-controlled list sitting next to the notebook, the same command whether it's running in Colab or locally. The reasoning behind that install step lives in [Session 1's setup guide](../session_1/setup_guide.ipynb) rather than here, since it's the same general pattern this whole course uses; what matters this week is that it's a one-time, automatic step, not something to debug by hand.
 
-The notebook's setup cell works around both problems in two lines:
-
-```
-pip install -q -r requirements.txt
-pip install -q --no-deps auto_synthetic_data_platform
-```
-
-The first line installs everything this week needs from a single, version-controlled list sitting right next to the notebook in this repo, the same list and the same command whether the notebook is running in Colab or locally. The second line is the one exception, and it's the trick that makes the rest simple: `--no-deps` tells pip to install the platform's own code without trying to enforce its frozen version requirements, so it never touches the broken pins in the first place. This has been verified, end to end, on both Python 3.11 and Python 3.12, so there's no particular Python version to chase.
-
-That first line only finds `requirements.txt` if the repo has actually been cloned into wherever the notebook is running, since it reads a local file, not something fetched over the internet. Locally, that's already true by the time the notebook is open, since cloning the repo is how the notebook got there in the first place. In Colab, the same applies: clone the repo before running the setup cell, the same repo the notebook itself came from, and `requirements.txt` is right there once that's done.
-
-**Running this locally instead**, install [uv](https://docs.astral.sh/uv/) once, in a terminal, before opening the notebook:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-# Windows (PowerShell): powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-`uv` manages Python itself, so this works even without Python already installed. Then, each time you open this notebook, run this from inside the `session_4` folder instead of a plain `jupyter notebook`:
+**Running this locally instead of Colab** follows the same `uv`-based approach as every other session — see the "Optional B: Local Setup" section of [Session 1's setup guide](../session_1/setup_guide.ipynb) for the one-time install, then run this from inside the `session_4` folder instead of a plain `jupyter notebook`:
 
 ```bash
 uv run --with jupyter jupyter lab
@@ -41,7 +25,7 @@ uv run --with jupyter jupyter lab
 
 That builds a fresh, isolated environment for this session automatically, every time, the same disposable-per-session guarantee Colab gives you for free, without a venv to create by hand or an environment to remember to activate. Open the notebook in the browser tab it launches and run the setup cell as normal.
 
-> **About the warnings.** The setup cell prints several lines like `auto-synthetic-data-platform 0.0.1 requires numpy==1.23.5, but you have numpy 1.26.4 which is incompatible`. That's expected. Those exact old versions are what's broken; the whole point of `--no-deps` is skipping them in favour of modern, already-installed, mutually compatible ones. The line to actually watch for is the one after: "Setup complete."
+> **About the warnings.** The setup cell prints a few lines that look like errors, saying an old package version is required but a newer one is already installed. That's expected — the whole point of this step is skipping those old, broken requirements in favour of modern, already-installed, compatible ones. The line to actually watch for is the one after: "Setup complete."
 
 ---
 
@@ -75,7 +59,7 @@ It's also too rare to tune a generative model against quickly: with well under 1
 
 `Preprocessor`'s default settings remove numerical outliers automatically, trimming every numerical column to its 0.5th-to-99.5th percentile range. Run against this table's columns as-is, that default doesn't just underperform, it crashes the entire preprocessing step with an empty dataframe.
 
-The cause sits in one column: `num_orders`. Over 90% of customers in this table placed exactly one order before the cutoff, which means both the 0.5th and the 99.5th percentile of that column land on the same value, 1. The outlier filter keeps only values strictly greater than the lower cut *and* strictly less than the upper one, and when both cuts are the same number, no value, including that number itself, satisfies both conditions at once. Every row gets dropped, and every step downstream fails on a table with nothing left in it.
+The cause sits in one column: `num_orders`. Over 90% of customers in this table placed exactly one order before the cutoff, so the low and high ends of that trimming range landed on the exact same number, 1. The filter's rule is to keep only values that fall strictly between those two ends, and when both ends are identical, nothing qualifies, not even that number itself. Every row gets dropped, and every step downstream fails on a table with nothing left in it.
 
 > **Good to know.** This is exactly the habit this course keeps returning to: read what a check actually does before trusting its name. A percentile-based outlier filter sounds safe on any numerical column. It isn't, on a column dominated by a single repeated value, and the failure here was loud, an error on an empty dataframe. A slightly less skewed column would have produced a quieter version of the same problem: outlier removal silently deleting rows a person never chose to drop.
 

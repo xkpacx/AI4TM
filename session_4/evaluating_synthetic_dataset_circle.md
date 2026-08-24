@@ -1,4 +1,6 @@
-# Reading the evaluation report, and putting it to the actual test
+# Evaluate and choose a model
+
+*Reading the evaluation report, and putting it to the actual test*
 
 This is the text companion to the final section of the synthetic data pipeline notebook. The previous piece trained and tuned CTGAN and TVAE against a real customer table. This piece reads what the search actually measured, and then goes further than a report: it trains the propensity model this whole exercise was built for, once on the synthetic table and once on the real one, and checks both against real, held-out customers.
 

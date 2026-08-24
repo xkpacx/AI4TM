@@ -1,4 +1,6 @@
-# Training and auto-tuning a synthetic data model
+# Train and tune the model
+
+*Training and auto-tuning a synthetic data model*
 
 This is the text companion to the second half of the synthetic data pipeline notebook. The preprocessing piece left off with a clean, correctly typed customer table. This piece trains CTGAN and TVAE against it, using an automatic hyperparameter search rather than hand-tuning, and generates the synthetic table the rest of this week's work depends on.
 
