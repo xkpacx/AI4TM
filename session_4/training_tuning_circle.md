@@ -25,7 +25,7 @@ This notebook requests one metric from each of the four families this week's ear
 
 ## What one real trial looked like
 
-Two trials from an actual run of this search make "each trial samples a combination of hyperparameters" concrete rather than abstract. The first trial trained for 400 rounds and took relatively large steps each time it corrected itself. The second trained for fewer rounds, 300, took smaller steps, and — the difference that mattered most — used a much larger batch size, the number of examples it groups together before each correction: 512 at a time against the first trial's 128. On this run, the second trial's combination scored better and became the search's answer.
+Two trials from an actual run of this search make "each trial samples a combination of hyperparameters" concrete rather than abstract. The first trial trained for 400 rounds and took relatively large steps each time it corrected itself. The second trained for fewer rounds, 300, took smaller steps, and, the difference that mattered most, used a much larger batch size, the number of examples it groups together before each correction: 512 at a time against the first trial's 128. On this run, the second trial's combination scored better and became the search's answer.
 
 ---
 
