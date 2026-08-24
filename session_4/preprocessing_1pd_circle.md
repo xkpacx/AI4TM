@@ -2,7 +2,7 @@
 
 *Preparing a real dataset, and setting the baseline*
 
-This is the text companion to the first half of the synthetic data pipeline notebook. The previous lessons this week covered when synthetic data is the right tool and how a model like TVAE or CTGAN actually learns a table. Neither of those questions matters if the table handed to the model is full of the wrong assumptions. This piece covers what `auto_synthetic_data_platform`'s `Preprocessor` class actually checks before training starts, what happens when its defaults meet a column they weren't built for, and — before CTGAN or TVAE enter the picture at all — how good a model trained directly on the real data actually is.
+A synthetic model only ever learns what the real data actually shows it. Get the real table wrong — the wrong column types, outliers removed from the wrong place, an imbalance nobody noticed — and CTGAN or TVAE will faithfully reproduce that mistake at scale rather than correct it. This piece is where that gets caught, before either model ever sees the table: what `auto_synthetic_data_platform`'s `Preprocessor` class checks, what happens when its defaults meet a real column, and how good a model trained directly on the real data is, the number everything synthetic gets measured against later.
 
 **Time**: about 20 minutes
 **Cost**: $0. Everything in the companion notebook runs locally or on Colab's own CPU/GPU, no API key involved
@@ -29,63 +29,53 @@ That builds a fresh, isolated environment for this session automatically, every 
 
 ---
 
-## The dataset, and two honest substitutions
+## Why a real dataset, not an invented one
 
-The notebook this piece supports works on a real dataset: the [Olist Brazilian e-commerce dataset](https://huggingface.co/datasets/miminmoons/olist-ecommerce-for-delivery-and-review-prediction), about 100,000 real, anonymised orders placed at a Brazilian online marketplace between September 2016 and September 2018. It's used instead of an invented table because the whole point of this week's exercise, a propensity model predicting whether a customer buys again within 90 days, needs real repeat-purchase behaviour to be worth anything.
+This week's exercise is a propensity model: predicting whether a customer buys again within 90 days. That prediction only means something if the repeat-purchase pattern behind it is real, so this piece works from the [Olist Brazilian e-commerce dataset](https://huggingface.co/datasets/miminmoons/olist-ecommerce-for-delivery-and-review-prediction) — about 100,000 real, anonymised orders from a Brazilian online marketplace between September 2016 and September 2018 — rather than a table built to look convenient.
 
-Two columns from this week's illustrative schema don't exist in Olist, and naming the substitution matters more than pretending it isn't there. Olist has no age data at all, so **age band** is replaced with **top product category**, a real column with genuine marketing value. Olist has no marketing-channel data either, so **channel of first visit** is replaced with **primary payment type**. Everything else, region, number of orders, average basket value, days since the last order, and the target itself, comes straight from real order history.
+Two columns from this week's illustrative schema don't exist in Olist, and naming the substitution matters more than pretending it isn't there: **age band** becomes **top product category** (Olist has no age data), and **channel of first visit** becomes **primary payment type** (Olist has no marketing-channel data). Everything else — region, number of orders, average basket value, days since the last order, and the target itself — comes straight from real order history.
 
-Building that target column correctly took one deliberate design choice: a fixed cutoff date, set 90 days before the last order in the dataset, with every feature computed only from orders *before* the cutoff and the label checking only for orders *after* it. The naive alternative, counting each customer's total orders and asking whether their last one was followed by another, leaks the future into the present, since a customer's own final order count already answers the question being predicted.
+One design choice made that target column trustworthy: a fixed cutoff date, 90 days before the dataset's last order, with every feature computed only from orders *before* that cutoff and the label checking only for orders *after* it. The tempting shortcut — counting each customer's total orders and asking whether their last one was followed by another — leaks the future into the present, since a customer's own final order count already answers the question being predicted.
 
 ---
 
 ## The real number worth sitting with
 
-Before any model gets involved, run the same question this week's earlier lesson asked in the abstract: how rare is the thing being predicted?
+Before any model gets involved, it's worth asking: how rare is the thing being predicted, on this real marketplace?
 
-On the full customer table, **0.54%** of customers bought again within 90 days of the cutoff. By the thresholds `auto_synthetic_data_platform`'s own imbalance check uses, mild between 20% and 40%, moderate between 1% and 20%, extreme below 1%, that's an **extreme** imbalance. This isn't an artifact of how the table was built. It's what a real 90-day repeat-purchase rate looks like on a real marketplace, and it's exactly the scenario Session 2's rare-class evaluation lessons and this week's own imbalance thresholds were written for.
+On the full customer table, **0.54%** of customers bought again within 90 days of the cutoff — an **extreme** imbalance by the platform's own thresholds (mild between 20% and 40%, moderate between 1% and 20%, extreme below 1%). That's not an artifact of how this table was built. It's what a real 90-day repeat-purchase rate looks like, and exactly the rare-event scenario Session 2's evaluation lessons were written for.
 
-It's also too rare to tune a generative model against quickly: with well under 1% of rows positive, a model can report a very low loss while barely representing the minority class, and every training run would take far longer than a teaching notebook should ask for. The notebook works around this the honest way, with a **stratified sample**: every customer who did buy again, plus a random sample of the rest, at a ratio that brings the positive rate to roughly 6%, a real, moderate imbalance a laptop can train on in a reasonable time. A production run would skip this step and tune against the full table.
-
----
-
-## Declaring column types
-
-`Preprocessor` needs an explicit mapping between column names and two categories, `numerical` and `categorical`, and it will not infer this on its own. Region, primary payment type, top category, and the target are categorical labels. Number of orders, average basket value, and days since the last order are numerical, quantities where the distance between two values carries meaning. The distinction sounds obvious until a column looks numeric and isn't: a postcode or a product ID stored as digits is categorical, and declaring it numerical produces synthetic postcodes that are averages of real ones, a number that describes no real place at all.
+It's also too rare to tune a generative model against quickly — a model can report a very low loss while barely representing the minority class at all, and every training run would take far longer than a teaching notebook should ask for. The notebook works around this honestly, with a **stratified sample**: every customer who did buy again, plus enough of the rest to bring the positive rate to roughly 6%, a real, moderate imbalance a laptop can train on in reasonable time. A production run would skip this step and tune against the full table.
 
 ---
 
-## What happened when the platform's defaults met this table
+## What preprocessing actually catches
 
-`Preprocessor`'s default settings remove numerical outliers automatically, trimming every numerical column to its 0.5th-to-99.5th percentile range. Run against this table's columns as-is, that default doesn't just underperform, it crashes the entire preprocessing step with an empty dataframe.
+`Preprocessor` exists to catch exactly this kind of mistake before it reaches a model, and running it against a real table, rather than a clean invented one, is what actually shows what it catches.
 
-The cause sits in one column: `num_orders`. Over 90% of customers in this table placed exactly one order before the cutoff, so the low and high ends of that trimming range landed on the exact same number, 1. The filter's rule is to keep only values that fall strictly between those two ends, and when both ends are identical, nothing qualifies, not even that number itself. Every row gets dropped, and every step downstream fails on a table with nothing left in it.
+It needs one explicit decision first: which columns are **numerical**, where the distance between two values carries meaning (average basket value, days since last order), and which are **categorical**, labels rather than quantities (region, payment type, the target itself). Even a column that looks numeric can be categorical — a postcode or product ID stored as digits, for instance, since averaging those produces a number that describes no real place at all.
 
-> **Good to know.** This is exactly the habit this course keeps returning to: read what a check actually does before trusting its name. A percentile-based outlier filter sounds safe on any numerical column. It isn't, on a column dominated by a single repeated value, and the failure here was loud, an error on an empty dataframe. A slightly less skewed column would have produced a quieter version of the same problem: outlier removal silently deleting rows a person never chose to drop.
+Left on its default settings, though, `Preprocessor` doesn't just underperform on this table, it crashes with an empty dataframe. The cause: over 90% of customers placed exactly one order before the cutoff, so the automatic outlier filter's low and high cutoffs on that column landed on the exact same number, and its rule, keep only values strictly between the two, left nothing to keep. Every row got dropped.
 
-The fix is to turn the platform's automatic outlier removal off, and apply it by hand only to the one column where it actually makes sense, `avg_basket_value`, which does carry genuine extreme values (the sample's real maximum is well over ten times its median). Numbers, dates, and IDs each fail in their own particular way, and this is what that lesson looks like on a real table rather than a hypothetical one.
+> **Good to know.** This is the habit this course keeps returning to: read what a check actually does before trusting its name. A percentile-based outlier filter sounds safe on any numerical column. It isn't, on a column dominated by one repeated value, and here the failure was loud, an error on an empty dataframe. A slightly less skewed column would have produced a quieter version of the same problem: rows deleted without anyone choosing to drop them.
+
+The fix: turn automatic outlier removal off, and apply it by hand only where it actually belongs, `avg_basket_value`, which does carry genuine extreme values (its real maximum is well over ten times its median). Numbers, dates, and IDs each fail in their own particular way, and this is what that lesson looks like on a real table.
 
 ---
 
-## What the real log actually showed
+## What the log showed, and who else might see it
 
-Run correctly, `Preprocessor` produced a log with:
+Run correctly, `Preprocessor`'s log flagged a missing-value warning on `top_category` (a small number of orders have no matched product, resolved by dropping those rows), a low-cardinality note on `region` and `primary_payment_type`, and moderate class-imbalance warnings on those same columns plus, at the same "moderate" level the real rate would suggest, on the target column `bought_again_90d` itself. That last one matters beyond this dataset: the same check that flags a rare product category is the check that would have caught the target's own rarity automatically, had it run against the full table instead of the sample.
 
-- a missing-value warning on `top_category` (a small number of orders have no matched product), resolved by dropping those rows
-- a cardinality note on `region` (27 distinct values) and `primary_payment_type` (4 distinct values), both below the platform's recommended 50-to-100 range
-- moderate class-imbalance warnings on `region`, `primary_payment_type`, `top_category`, and, at the same "moderate" level the table's real rate would suggest, on the target column `bought_again_90d` itself
-
-That last line matters beyond this one dataset. The same check that flags a rare product category or an underrepresented region is the check that would have caught the target's own rarity automatically, if it had been run against the full table instead of the stratified sample.
-
-> **A log has its own privacy question.** These warnings name the actual column names and category values that triggered them. A log built to be shared with someone who can't see the raw table is safer than the table itself, but it still carries real column names and some real category labels. Read a log before sending it, the same habit Session 3's DLP lesson asked for at every handoff in a pipeline, and this is one more handoff.
+That log is built to be shareable with someone who can't see the raw table, but it still names real columns and real category values. Read a log before sending it, the same handoff habit Session 3's DLP lesson asked for.
 
 ---
 
 ## Setting the baseline
 
-Before CTGAN or TVAE touch this table at all, it's worth answering a plainer question first: how good is a propensity model when it's trained directly on the real data, no synthetic step involved? That number is what everything else this week gets measured against. A synthetic table only earns its place in this pipeline if a model trained on it comes reasonably close to matching it — there'd be no point otherwise.
+Every synthetic-trained model in this pipeline gets measured against one number: how good is a propensity model trained directly on the real data, no synthetic step involved? A synthetic table only earns its place here if a model trained on it comes reasonably close to matching this.
 
-Training a simple predictive model on this real, preprocessed customer table (the same stratified sample from above, roughly 6.3% positive) and testing it against real, held-out customers, scored the way Session 2's rare-class lessons ask for — precision, recall, and F1, not accuracy alone:
+Training a simple predictive model on this same real, stratified table, and testing it against real, held-out customers, scored the way Session 2's rare-class lessons ask for — precision, recall, and F1, not accuracy alone:
 
 | Metric | Score |
 |---|---|
@@ -94,15 +84,15 @@ Training a simple predictive model on this real, preprocessed customer table (th
 | Recall | 0.030 |
 | F1 | 0.054 |
 
-Read the accuracy number first, and then set it aside. A model that predicted "no" for every single customer would already score above 93%, since well under 10% of customers in this table bought again. The number that actually matters is recall, and it's genuinely weak: 0.030 means this model catches roughly 3 in every 100 customers who really did come back. That's not a strong model. It's a real, if faint, signal on a genuinely hard, rare-event problem — and it's the bar a synthetic-trained model has to clear later this session, not some idealized 90%+ target.
+Read accuracy first, then set it aside: predicting "no" for every customer already scores above 93%, since well under 10% actually bought again. Recall is the number that matters, and it's genuinely weak: 0.030 means this model catches roughly 3 in every 100 customers who really did come back. Not a strong model — a real, if faint, signal on a genuinely hard, rare-event problem, and the bar a synthetic-trained model has to clear later this session, not some idealised 90%+ target.
 
-> **Where this number comes from.** This exact result comes from later in this week's hands-on notebook, trained on real data only, before the synthetic table is ever compared against it. It's introduced here, ahead of that point, because "how good is real-only" is worth knowing before spending any time tuning CTGAN or TVAE, not after.
+> **Where this number comes from.** This result comes from later in this week's hands-on notebook, trained on real data only, before the synthetic table is ever compared against it. It's introduced here because knowing "how good is real-only" matters before spending any time tuning CTGAN or TVAE, not after.
 
 ---
 
 ## Wrap-up
 
-Declaring column types correctly, handling missing values, applying outlier removal where it belongs rather than everywhere by default, and knowing what a real-only model can and can't do on this table — all of it happens before a single synthetic row gets generated, and all of it changes what the model downstream actually learns, and what "good enough" should mean when synthetic data enters the picture. The next piece in this session picks up from here: training and auto-tuning CTGAN and TVAE against the table this preprocessing step produced.
+Column types declared correctly, outlier removal applied only where it belongs, and a real baseline number to measure against — none of it involves a single synthetic row yet, and all of it decides what the model downstream actually learns, and what "good enough" should mean once synthetic data enters the picture. The next piece picks up from here: training and auto-tuning CTGAN and TVAE against the table this step produced.
 
 **Also in Session 4**: when to use synthetic data at all, and what a synthetic dataset does and doesn't protect once it exists.
 
