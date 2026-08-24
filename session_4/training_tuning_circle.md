@@ -19,15 +19,21 @@ The environment setup for this whole week, Colab or local, happens once, in the 
 
 Training a generative model adjusts millions of internal values automatically. A much smaller set of values, the hyperparameters, has to be decided before training starts: how many rounds to run, how large a step the model takes each time it corrects itself, how many layers deep its networks are. `SyntheticDataModelTuner` replaces hand-picking those values with a search: each trial samples a combination of hyperparameters, trains a full model with them, scores the result against the metrics named up front, and records everything. After the requested number of trials, the search hands back the best-scoring model, its hyperparameters, and the evaluation behind that choice.
 
-This notebook requests one metric from each of the four families this week's earlier lesson described, sanity, statistical fidelity, suitability, and privacy, all four defined so that higher is better, which is what lets the search optimise their combined average in a single, consistent direction. Optuna, the library doing the actual sampling, treats every trial as an independent full training run, which is why the platform's own documentation calls this "time and resource consuming" and means it literally: five trials means five complete models trained from scratch, once for TVAE and once again for CTGAN.
+This notebook requests one metric from each of the four families this week's earlier lesson described: sanity, statistical fidelity, suitability, and privacy. All four are defined so that higher is better, which is what lets the search judge every trial by one combined score instead of four separate ones. Each trial is a full, independent training run, and the platform's own documentation warns this gets slow. The notebook's own default is deliberately small, just two trials, so a first run stays practical on a laptop; the same setup step notes to raise that to five or more, ideally on a faster GPU runtime such as Colab's, once the goal is an actual model to keep rather than a quick check that the pipeline runs end to end. Even at two, that's already four full models trained from scratch, two attempts each for TVAE and CTGAN.
+
+---
+
+## What one real trial looked like
+
+Two trials from an actual run of this search make "each trial samples a combination of hyperparameters" concrete rather than abstract. The first trial trained for 400 rounds and took relatively large steps each time it corrected itself. The second trained for fewer rounds, 300, took smaller steps, and — the difference that mattered most — used a much larger batch size, the number of examples it groups together before each correction: 512 at a time against the first trial's 128. On this run, the second trial's combination scored better and became the search's answer.
 
 ---
 
 ## Reading the search, not just its answer
 
-Two plots make the search inspectable rather than a black box that hands back a single winner. The parallel-coordinates plot draws one line per trial across every hyperparameter axis and the score each trial achieved, so a band of lines converging in the same region of an axis shows where the good scores actually came from. The importances plot ranks each hyperparameter by how much varying it moved the score, separating the settings that mattered on this dataset from the ones that could have stayed at their defaults the whole time.
+Two plots make the search inspectable rather than a black box that hands back a single winner. The parallel-coordinates plot draws one line per trial across every hyperparameter axis and the score it achieved, so the two trials above would show up as two such lines, and a band of lines converging in the same region of an axis shows where the good scores actually came from. The importances plot ranks each hyperparameter by how much varying it moved the score, separating the settings that mattered on this dataset, like that batch size, from the ones that could have stayed at their defaults the whole time.
 
-Between CTGAN and TVAE, the more useful comparison isn't the search's blended objective, it's the metric this week's actual use case depends on: `performance.xgb`, the suitability check that trains a real model on the synthetic data and tests it on real customers. A model that scores well on fidelity and privacy but poorly there hasn't solved this week's problem, whatever its other numbers say.
+Between CTGAN and TVAE, the more useful comparison isn't the search's blended objective, it's the metric this week's actual use case depends on, its suitability score: the check that trains a model on the synthetic data and tests it on real customers. A model that scores well on fidelity and privacy but poorly there hasn't solved this week's problem, whatever its other numbers say.
 
 ---
 
