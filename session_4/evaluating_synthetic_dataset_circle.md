@@ -28,12 +28,10 @@ The tuned search in the previous piece runs multiple full training passes and ke
 
 A single CTGAN fit, 150 iterations, no search, no tuning, trained on this week's real customer data (a 6.3% positive rate after the stratified sampling from the preprocessing piece), produced a synthetic table with a **1.5%** positive rate. Training the exact same propensity model on each, and testing both against the same real, held-out customers:
 
-| Trained on | Accuracy | Precision | Recall | F1 |
-|---|---|---|---|---|
-| Real data | 0.934 | 0.273 | 0.030 | 0.054 |
-| Synthetic data (quick, untuned fit) | 0.936 | 0.000 | 0.000 | 0.000 |
+- **Real data**: accuracy 0.934, precision 0.273, recall 0.030, F1 0.054
+- **Synthetic data (quick, untuned fit)**: accuracy 0.936, precision 0.000, recall 0.000, F1 0.000
 
-Read the accuracy column first, and then notice how little it says. A model that predicts "no" for every single customer already scores above 93%, because well under 10% of customers in this table bought again. The real model at least catches a handful of them; the untuned synthetic model catches none, a complete collapse of the exact class the whole exercise cares about, hidden entirely behind a headline number that looks fine.
+Read the accuracy numbers first, and then notice how little they say. A model that predicts "no" for every single customer already scores above 93%, because well under 10% of customers in this table bought again. The real model at least catches a handful of them; the untuned synthetic model catches none, a complete collapse of the exact class the whole exercise cares about, hidden entirely behind a headline number that looks fine.
 
 This is what happens when a general-purpose generative model is asked to learn a rare pattern from a small number of examples in too few training passes, not a failure of the approach itself, exactly the risk the earlier lesson in this session named directly: a value the model barely sees during training is a value it will barely produce. The tuned search exists specifically to catch this, since it runs multiple trials and keeps whichever one actually scores well on suitability rather than accepting the first fit that finishes.
 

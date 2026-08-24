@@ -61,12 +61,10 @@ Every synthetic-trained model in this pipeline gets measured against one number:
 
 Training a simple predictive model on this same real, stratified table, and testing it against real customers it never saw during training, produced these scores:
 
-| Metric | Score |
-|---|---|
-| Accuracy | 0.934 |
-| Precision | 0.273 |
-| Recall | 0.030 |
-| F1 | 0.054 |
+- **Accuracy**: 0.934
+- **Precision**: 0.273
+- **Recall**: 0.030
+- **F1**: 0.054
 
 Worth a reminder of what these actually ask, since accuracy alone would be misleading here. **Precision** asks: of the customers the model flagged as likely to return, how many actually did? **Recall** asks: of the customers who really did return, how many did the model actually catch? **F1** combines the two into a single number. Accuracy just asks how often the model was right overall, and on a table this imbalanced that number is close to meaningless: predicting "no" for every single customer would already score above 93%, since well under 10% of customers in this table bought again.
 
