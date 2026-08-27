@@ -108,7 +108,7 @@ Estimating token costs before running a job is covered in this week's cost guide
 
 You forked the repository in Part 1. Save this notebook into that fork:
 
-**File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `YOUR_USERNAME/AI4TM` (the fork you created in Part 1), keep the file path Colab suggests (`session_1/setup_guide.ipynb`), write a commit message, and click OK.
+**File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `YOUR_USERNAME/AI4TM` (the fork you created in Part 1), keep the file path Colab suggests (`session_1/week2_lesson08_setup_guide.ipynb`), write a commit message, and click OK.
 
 Repeat this at the end of every session, into that same fork, at that same file path. This gives you version history you can roll back, a copy outside Colab, and over time a record of your applied AI work.
 
