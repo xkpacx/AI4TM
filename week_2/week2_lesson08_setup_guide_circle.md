@@ -108,7 +108,7 @@ Estimating token costs before running a job is covered in this week's cost guide
 
 You forked the repository in Part 1. Save this notebook into that fork:
 
-**File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `YOUR_USERNAME/AI4TM` (the fork you created in Part 1), keep the file path Colab suggests (`session_1/week2_lesson08_setup_guide.ipynb`), write a commit message, and click OK.
+**File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `YOUR_USERNAME/AI4TM` (the fork you created in Part 1), keep the file path Colab suggests (`week_2/week2_lesson08_setup_guide.ipynb`), write a commit message, and click OK.
 
 Repeat this at the end of every session, into that same fork, at that same file path. This gives you version history you can roll back, a copy outside Colab, and over time a record of your applied AI work.
 
@@ -265,19 +265,19 @@ From here, pick whichever of the two matches how you like to work.
 **Recommended: a persistent environment, one per session, for VS Code, PyCharm, or any other IDE.** Each session folder gets its own `.venv`, created once from a terminal:
 
 ```bash
-cd session_1
+cd week_2
 uv venv
 uv pip install -r requirements.txt
 ```
 
-`requirements.txt` already lists `ipykernel`, so this one command installs everything the session needs and registers the environment as a selectable Jupyter kernel, no separate step. Then open the notebook in your IDE and point its kernel/interpreter picker at what you just created: **VS Code** → Select Kernel (top right) → Python Environments → the `.venv` inside `session_1`. **PyCharm** → Settings → Project → Python Interpreter → Add Interpreter → Existing → `session_1/.venv/bin/python` (`session_1\.venv\Scripts\python.exe` on Windows). Any other IDE: point its interpreter/kernel picker at that same path.
+`requirements.txt` already lists `ipykernel`, so this one command installs everything the session needs and registers the environment as a selectable Jupyter kernel, no separate step. Then open the notebook in your IDE and point its kernel/interpreter picker at what you just created: **VS Code** → Select Kernel (top right) → Python Environments → the `.venv` inside `week_2`. **PyCharm** → Settings → Project → Python Interpreter → Add Interpreter → Existing → `week_2/.venv/bin/python` (`week_2\.venv\Scripts\python.exe` on Windows). Any other IDE: point its interpreter/kernel picker at that same path.
 
-Repeat `cd session_N && uv venv && uv pip install -r requirements.txt` for each session as you reach it, environments are deliberately per-session, not shared, so one session's packages never conflict with another's.
+Repeat `cd week_N && uv venv && uv pip install -r requirements.txt` for each session as you reach it, environments are deliberately per-session, not shared, so one session's packages never conflict with another's.
 
 **Alternative: a disposable browser tab, like Colab, no IDE or kernel-picking involved.** Each time you want to work on a session:
 
 ```bash
-cd session_1
+cd week_2
 uv run --with jupyter jupyter lab
 ```
 

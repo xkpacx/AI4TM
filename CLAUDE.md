@@ -56,32 +56,32 @@ The repository contains educational content, notebooks, and guides for teaching 
 
 Only for experienced users who prefer local control. As of 2026-08, new local-setup instructions should use [uv](https://docs.astral.sh/uv/) rather than a manually created `venv`, since it gives each session its own disposable, isolated environment (matching the isolation Colab already provides for free) without the student needing to create or activate anything by hand, and it manages Python itself if none is installed. As of 2026-08-16, every session notebook's own setup cell auto-detects Colab vs. local (`import google.colab`) and installs accordingly, in one of two ways:
 
-- **Colab**: installs from an explicit package list written directly into that cell. Not from `session_N/requirements.txt` — opening a notebook via the "Open in Colab" badge loads only that one file, not the rest of the repository, so there's no sibling file to read. Keep this list in sync with `session_N/requirements.txt` by hand when either changes.
-- **Local (any IDE — VS Code, PyCharm, etc.)**: installs from `session_N/requirements.txt`, one persistent `uv`-managed venv per session, created once from a terminal before the notebook is opened:
+- **Colab**: installs from an explicit package list written directly into that cell. Not from `week_N/requirements.txt` — opening a notebook via the "Open in Colab" badge loads only that one file, not the rest of the repository, so there's no sibling file to read. Keep this list in sync with `week_N/requirements.txt` by hand when either changes.
+- **Local (any IDE — VS Code, PyCharm, etc.)**: installs from `week_N/requirements.txt`, one persistent `uv`-managed venv per session, created once from a terminal before the notebook is opened:
 
 ```bash
-cd session_N
+cd week_N
 uv venv
 uv pip install -r requirements.txt   # requirements.txt already lists ipykernel
 ```
 
-Then point the IDE's kernel/interpreter picker at `session_N/.venv/bin/python` (`session_N\.venv\Scripts\python.exe` on Windows). The notebook's own setup cell looks up `requirements.txt` by directory (checking `session_N` is either the cwd, a child, or a sibling of cwd), not by bare filename, since the repo root also has its own `requirements.txt` for whole-repo setup that a naive filename search could grab by mistake. A lighter, IDE-free alternative (`uv run --with jupyter jupyter lab`, run from inside the session folder) still works too, for a disposable browser-tab session instead of a persistent one a kernel picker points at.
+Then point the IDE's kernel/interpreter picker at `week_N/.venv/bin/python` (`week_N\.venv\Scripts\python.exe` on Windows). The notebook's own setup cell looks up `requirements.txt` by directory (checking `week_N` is either the cwd, a child, or a sibling of cwd), not by bare filename, since the repo root also has its own `requirements.txt` for whole-repo setup that a naive filename search could grab by mistake. A lighter, IDE-free alternative (`uv run --with jupyter jupyter lab`, run from inside the session folder) still works too, for a disposable browser-tab session instead of a persistent one a kernel picker points at.
 
-Full walkthrough lives in `session_1/week2_lesson08_setup_guide.ipynb`'s "Optional B" section; every other notebook points back to it rather than duplicating the explanation, though each keeps its own copy of the actual uv commands and Colab package list inline (checked against Krasimir's explicit preference for this exact split, 2026-08-16).
+Full walkthrough lives in `week_2/week2_lesson08_setup_guide.ipynb`'s "Optional B" section; every other notebook points back to it rather than duplicating the explanation, though each keeps its own copy of the actual uv commands and Colab package list inline (checked against Krasimir's explicit preference for this exact split, 2026-08-16).
 
 ## Repository Structure
 
 ```
 AI4TM/
-├── session_1/              # AI Fundamentals
+├── week_2/              # AI Fundamentals
 │   ├── week2_lesson08_setup_guide.ipynb          # Colab + Gemini setup (default path, billing required)
 │   ├── week2_lesson08_setup_guide_circle.md      # Text version for Circle platform
 │   └── [neural networks, tokenization, embeddings notebooks - TBD]
-├── session_2/              # Evaluation (regression, classification, semantic search)
-├── session_3/              # Compliance
-├── session_4/              # Synthetic Data
-├── session_5/              # Knowledge Graphs
-├── session_6/              # Agentic Workflows
+├── week_3/              # Evaluation (regression, classification, semantic search)
+├── week_4/              # Compliance
+├── week_5/              # Synthetic Data
+├── week_6/              # Knowledge Graphs
+├── week_7/              # Agentic Workflows
 ├── data/                   # Sample datasets (public/synthetic only)
 ├── utils/                  # Reusable Python modules
 ├── .gitignore
@@ -142,7 +142,7 @@ AI4TM/
 - **Google Gemini**: `google-genai` (NOT `google-generativeai` - deprecated Nov 2025)
   - Install: `pip install google-genai`
   - Import: `from google import genai`
-  - Model: `gemini-3.5-flash-lite` (fast, low-latency; not the cheapest Gemini option, Google's official 2.5-flash-lite successor `gemini-3.1-flash-lite` costs less, see [session_1/week2_lesson09_token_cost_guide_circle.md](session_1/week2_lesson09_token_cost_guide_circle.md), but 3.5 is what the notebooks call. Confirm current pricing before quoting a figure)
+  - Model: `gemini-3.5-flash-lite` (fast, low-latency; not the cheapest Gemini option, Google's official 2.5-flash-lite successor `gemini-3.1-flash-lite` costs less, see [week_2/week2_lesson09_token_cost_guide_circle.md](week_2/week2_lesson09_token_cost_guide_circle.md), but 3.5 is what the notebooks call. Confirm current pricing before quoting a figure)
 
 ### Optional (Paid APIs)
 - **OpenAI**: `openai>=1.0.0`
