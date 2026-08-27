@@ -1,6 +1,6 @@
 # Hands-on: estimate token costs before you run anything
 
-Lesson 3 covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. There's no free Gemini tier left to fall back on if that step gets skipped — every provider used in this course now requires billing before it issues a key.
+[Lesson 3](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/3914878) covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. There's no free Gemini tier left to fall back on if that step gets skipped. Every provider used in this course now requires billing before it issues a key.
 
 Takes about 15 minutes.
 
@@ -30,7 +30,7 @@ The asymmetry between input and output prices is worth holding onto when you des
 
 ## A quick estimate, without calling any API
 
-Lesson 3's rule of thumb, roughly four characters per token in English, is enough to sanity-check a run before you touch the API:
+[Lesson 3](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/3914878)'s rule of thumb, roughly four characters per token in English, is enough to sanity-check a run before you touch the API:
 
 ```python
 def estimate_tokens_quick(text: str) -> int:
@@ -43,13 +43,13 @@ print(estimate_tokens_quick(sample_review))  # ~20 tokens
 
 Run this the moment you start writing a loop over a dataset, before the API is touched at all.
 
-Two things make this estimate run low: non-English text fragments into more tokens than its English equivalent, and structured strings like SKUs, URLs, and IDs fragment badly. Both are covered in Lesson 3. If your data is heavy on either, treat the quick estimate as a floor and get an exact count.
+Two things make this estimate run low: non-English text fragments into more tokens than its English equivalent, and structured strings like SKUs, URLs, and IDs fragment badly. Both are covered in [Lesson 3](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/3914878). If your data is heavy on either, treat the quick estimate as a floor and get an exact count.
 
 ---
 
 ## Getting an exact count, at no per-call charge
 
-When you need a precise number, most providers offer a token counting call with no per-call charge, since it generates nothing — it still needs a valid, billed API key to run.
+When you need a precise number, most providers offer a token counting call with no per-call charge, since it generates nothing. It still needs a valid, billed API key to run.
 
 For Gemini:
 
@@ -92,7 +92,7 @@ Official pricing pages, always more current than a static table:
 
 > **Model retirement affects this course.** The course notebooks call `gemini-3.5-flash-lite`. They used to call `gemini-2.5-flash-lite`, but that model started erroring out for some students well ahead of Google's own retirement date (16 October 2026, and not yet final), so the notebooks were moved off it early. If `gemini-3.5-flash-lite` ever starts failing on the model name for you, check [AI Studio](https://aistudio.google.com) for the current lineup; `gemini-3.1-flash-lite` is Google's official migration target for 2.5 and costs noticeably less than 3.5 on both input and output, so it's worth trying first if 3.5 is also unavailable or you want to cut cost.
 
-> **There is no free tier left.** Google removed Pro models from the free tier in April 2026, leaving only Flash and Flash-Lite free — and since then has moved to requiring a billing method on file before issuing any Gemini API key at all, closing that remaining free path too. Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
+> **There is no free tier left.** Google removed Pro models from the free tier in April 2026, leaving only Flash and Flash-Lite free, and since then has moved to requiring a billing method on file before issuing any Gemini API key at all, closing that remaining free path too. Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
 
 ---
 
@@ -150,7 +150,7 @@ Even the costliest option lands well under a dollar for 500 reviews. A single we
 
 **Estimate before looping.** Multiply item count by tokens per item by price, before writing the `for` loop that calls the API.
 
-**Test on the cheapest model first.** Prototype a prompt on the cheapest available model, then upgrade only when quality genuinely requires it — none of these models are free anymore, but the cheapest ones cost little enough to iterate on freely.
+**Test on the cheapest model first.** Prototype a prompt on the cheapest available model, then upgrade only when quality genuinely requires it. None of these models are free anymore, but the cheapest ones cost little enough to iterate on freely.
 
 **Cap the output length.** Most APIs accept a `max_tokens` parameter or similar. Setting a sane ceiling means a model that starts rambling can't run up an unexpected output bill, and output is the expensive side.
 
