@@ -67,15 +67,15 @@ uv pip install -r requirements.txt   # requirements.txt already lists ipykernel
 
 Then point the IDE's kernel/interpreter picker at `session_N/.venv/bin/python` (`session_N\.venv\Scripts\python.exe` on Windows). The notebook's own setup cell looks up `requirements.txt` by directory (checking `session_N` is either the cwd, a child, or a sibling of cwd), not by bare filename, since the repo root also has its own `requirements.txt` for whole-repo setup that a naive filename search could grab by mistake. A lighter, IDE-free alternative (`uv run --with jupyter jupyter lab`, run from inside the session folder) still works too, for a disposable browser-tab session instead of a persistent one a kernel picker points at.
 
-Full walkthrough lives in `session_1/setup_guide.ipynb`'s "Optional B" section; every other notebook points back to it rather than duplicating the explanation, though each keeps its own copy of the actual uv commands and Colab package list inline (checked against Krasimir's explicit preference for this exact split, 2026-08-16).
+Full walkthrough lives in `session_1/week2_lesson08_setup_guide.ipynb`'s "Optional B" section; every other notebook points back to it rather than duplicating the explanation, though each keeps its own copy of the actual uv commands and Colab package list inline (checked against Krasimir's explicit preference for this exact split, 2026-08-16).
 
 ## Repository Structure
 
 ```
 AI4TM/
 ├── session_1/              # AI Fundamentals
-│   ├── setup_guide.ipynb          # Colab + Gemini setup (default path, billing required)
-│   ├── setup_guide_circle.md      # Text version for Circle platform
+│   ├── week2_lesson08_setup_guide.ipynb          # Colab + Gemini setup (default path, billing required)
+│   ├── week2_lesson08_setup_guide_circle.md      # Text version for Circle platform
 │   └── [neural networks, tokenization, embeddings notebooks - TBD]
 ├── session_2/              # Evaluation (regression, classification, semantic search)
 ├── session_3/              # Compliance
@@ -142,7 +142,7 @@ AI4TM/
 - **Google Gemini**: `google-genai` (NOT `google-generativeai` - deprecated Nov 2025)
   - Install: `pip install google-genai`
   - Import: `from google import genai`
-  - Model: `gemini-3.5-flash-lite` (fast, low-latency; not the cheapest Gemini option, Google's official 2.5-flash-lite successor `gemini-3.1-flash-lite` costs less, see [session_1/token_cost_guide_circle.md](session_1/token_cost_guide_circle.md), but 3.5 is what the notebooks call. Confirm current pricing before quoting a figure)
+  - Model: `gemini-3.5-flash-lite` (fast, low-latency; not the cheapest Gemini option, Google's official 2.5-flash-lite successor `gemini-3.1-flash-lite` costs less, see [session_1/week2_lesson09_token_cost_guide_circle.md](session_1/week2_lesson09_token_cost_guide_circle.md), but 3.5 is what the notebooks call. Confirm current pricing before quoting a figure)
 
 ### Optional (Paid APIs)
 - **OpenAI**: `openai>=1.0.0`
