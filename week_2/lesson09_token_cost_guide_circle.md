@@ -82,7 +82,7 @@ Prices are quoted per one million tokens and shift as providers release and reti
 | Google Gemini | Gemini 3.5 Flash | $1.50 | $9.00 | More capable, roughly 5x the Flash-Lite input price |
 | OpenAI | GPT-4o mini | $0.15 | $0.60 | Budget tier, check the pricing page for current model lineup |
 | Anthropic | Claude Haiku 4.5 | $1.00 | $5.00 | Cheapest current Claude |
-| Anthropic | Claude Sonnet 5 | $3.00 | $15.00 | Mid-tier. Introductory rate of $2.00/$10.00 applies through 31 August 2026 |
+| Anthropic | Claude Sonnet 5 | $2.00 | $10.00 | Mid-tier. Originally introductory through 31 August 2026 with a planned rise to $3.00/$15.00 after; Anthropic cancelled that increase and made $2.00/$10.00 the standing rate |
 
 Official pricing pages, always more current than a static table:
 
@@ -140,7 +140,7 @@ Sentiment analysis on 500 reviews, each roughly 50 words (about 250 characters),
 | Gemini 2.5 Flash-Lite | ~$0.011 |
 | GPT-4o mini | ~$0.017 |
 | Claude Haiku 4.5 | ~$0.131 |
-| Claude Sonnet 5 | ~$0.394 |
+| Claude Sonnet 5 | ~$0.263 |
 
 Even the costliest option lands well under a dollar for 500 reviews. A single well-planned batch is rarely the problem. Costs run away in the unplanned cases: retrying on every error without a cap, re-processing the same data twice, or pasting a multi-page document into every request in a loop rather than once. Estimating the total before pressing run matters most when the item count is large or the prompts carry a lot of pasted context.
 
