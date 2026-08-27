@@ -25,7 +25,7 @@ This dataset is a placeholder. Any table with a text column and a true-label col
 
 With the dataset in place, the next step is having Gemini classify each snippet without seeing the true label, so there's something to compare against it. This is the same pattern as the course's first AI-assistant use case, classification, just run here on a placeholder dataset instead of a live one.
 
-Before running a batch job, the habit from Session 1's token cost guide is to estimate the cost first. Forty-five short classification calls on `gemini-2.5-flash-lite` cost a fraction of a cent, but there's no free quota behind it anymore, so it's worth checking that habit even when the dollar figure is tiny.
+Before running a batch job, the habit from Session 1's token cost guide is to estimate the cost first. Forty-five short classification calls on `gemini-3.5-flash-lite` cost a fraction of a cent, but there's no free quota behind it anymore, so it's worth checking that habit even when the dollar figure is tiny.
 
 Each response is checked against the five known category names; anything that doesn't match exactly, or a call that fails outright after a couple of retries, is recorded as its own `UNKNOWN` label rather than dropped, so a formatting slip or a failed call shows up in the metrics below instead of silently vanishing from them.
 

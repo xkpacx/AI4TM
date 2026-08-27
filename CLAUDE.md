@@ -72,7 +72,7 @@ Full walkthrough lives in `session_1/setup_guide.ipynb`'s "Optional B" section; 
 ## Repository Structure
 
 ```
-ai4tm-masterclass/
+AI4TM/
 ├── session_1/              # AI Fundamentals
 │   ├── setup_guide.ipynb          # Colab + Gemini setup (default path, billing required)
 │   ├── setup_guide_circle.md      # Text version for Circle platform
@@ -136,13 +136,13 @@ ai4tm-masterclass/
 - Document common pitfalls and how to avoid them
 - Focus on what can go wrong in marketing AI applications
 
-## Current SDK Versions (Verified 2025)
+## Current SDK Versions (Verified 2025, model updated 2026-08)
 
 ### Primary (Low-Cost, Billing Required)
 - **Google Gemini**: `google-genai` (NOT `google-generativeai` - deprecated Nov 2025)
   - Install: `pip install google-genai`
   - Import: `from google import genai`
-  - Model: `gemini-2.5-flash-lite` (fast, cheapest available model — confirm current pricing before quoting a figure)
+  - Model: `gemini-3.5-flash-lite` (fast, low-latency; not the cheapest Gemini option, Google's official 2.5-flash-lite successor `gemini-3.1-flash-lite` costs less, see [session_1/token_cost_guide_circle.md](session_1/token_cost_guide_circle.md), but 3.5 is what the notebooks call. Confirm current pricing before quoting a figure)
 
 ### Optional (Paid APIs)
 - **OpenAI**: `openai>=1.0.0`
@@ -153,11 +153,14 @@ ai4tm-masterclass/
 
 ## Workflow for Students
 
-1. Get a Gemini API key from aistudio.google.com/apikey (requires enabling billing — see Session 1 setup guide)
-2. Open notebook in Colab (one-click from GitHub)
-3. Store API key in Colab Secrets (🔑 icon)
-4. Run notebook cells
-5. Save work back to GitHub (File → Save to GitHub)
+1. Fork the repository (`github.com/YOUR_USERNAME/AI4TM`) — one time, at the start of Session 1
+2. Get a Gemini API key from aistudio.google.com/apikey (requires enabling billing — see Session 1 setup guide)
+3. Open notebook in Colab (one-click from GitHub)
+4. Store API key in Colab Secrets (🔑 icon)
+5. Run notebook cells
+6. Save work back to GitHub, into your fork (File → Save to GitHub)
+
+Students are never added as collaborators on the origin repo; forking is the only mechanism they use to get a personal, writable copy.
 
 ## Workflow for Content Creators
 
