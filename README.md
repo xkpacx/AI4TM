@@ -18,7 +18,7 @@ This course uses **Google Gemini's pay-as-you-go API** — as of 2026, Google re
    Click any `.ipynb` file in this repository → Look for "Open in Colab" badge → Click it
 
 4. **Start with the setup guide**:
-   [week_2/week2_lesson08_setup_guide.ipynb](week_2/week2_lesson08_setup_guide.ipynb) — it walks through all of the above in order, plus how to save your work into your fork
+   [week_2/lesson08_setup_guide.ipynb](week_2/lesson08_setup_guide.ipynb) — it walks through all of the above in order, plus how to save your work into your fork
 
 **That's it!** No local installation, no complex setup — just a Google account with billing enabled.
 
@@ -39,25 +39,25 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 **Topics**: Neural networks, attention, tokenization, embeddings
 **Approach**: Production failure modes (light theory)
 **Content**:
-- [Setup Guide (Notebook)](week_2/week2_lesson08_setup_guide.ipynb) - Colab + Gemini API + GitHub
-- [Setup Guide (Text)](week_2/week2_lesson08_setup_guide_circle.md) - For Circle platform
-- [Token Cost Guide (Notebook)](week_2/week2_lesson09_token_cost_guide.ipynb) / [Text](week_2/week2_lesson09_token_cost_guide_circle.md) - Estimate cost before running a batch job
+- [Setup Guide (Notebook)](week_2/lesson08_setup_guide.ipynb) - Colab + Gemini API + GitHub
+- [Setup Guide (Text)](week_2/lesson08_setup_guide_circle.md) - For Circle platform
+- [Token Cost Guide (Notebook)](week_2/lesson09_token_cost_guide.ipynb) / [Text](week_2/lesson09_token_cost_guide_circle.md) - Estimate cost before running a batch job
 
 ### Session 2: Evaluation
 **Topics**: Regression, classification, semantic search
 **Content**:
-- [Evaluation Template (Notebook)](week_3/week3_lesson13_evaluation_template.ipynb) / [Text](week_3/week3_lesson13_evaluation_template_circle.md) - Accuracy, precision, recall, F1, confusion matrix
-- [Human-in-the-Loop Validation (Notebook)](week_3/week3_lesson12_human_in_the_loop.ipynb) / [Text](week_3/week3_lesson12_human_in_the_loop_circle.md) - BLEU, ROUGE, LLM-as-judge, and deciding where a person needs to check the model's work
+- [Evaluation Template (Notebook)](week_3/lesson13_evaluation_template.ipynb) / [Text](week_3/lesson13_evaluation_template_circle.md) - Accuracy, precision, recall, F1, confusion matrix
+- [Human-in-the-Loop Validation (Notebook)](week_3/lesson12_human_in_the_loop.ipynb) / [Text](week_3/lesson12_human_in_the_loop_circle.md) - BLEU, ROUGE, LLM-as-judge, and deciding where a person needs to check the model's work
 
 ### Session 3: Compliance
 **Topics**: AI compliance and regulatory considerations
 **Content**:
-- [What is the EU AI Act, and Why You Should Care (Text)](week_4/week4_lesson14_eu_ai_act_intro_circle.md) - Risk categories, provider vs. deployer, the 2026 Digital Omnibus timeline, GDPR overlap
-- [Reviewing Your Own Architecture for Compliance (Text)](week_4/week4_lesson19_architecture_compliance_worksheet_circle.md) - A reusable six-step worksheet applying the AI Act criteria to any system you build
-- [Explore a Real-World Use Case (Text)](week_4/week4_lesson15_real_world_use_case_circle.md) - A real enterprise case study (Starbucks EMEA, built at Monks) read against the AI Act criteria
-- [Setting Up and Protecting Your API Keys (Notebook)](week_4/week4_lesson18_api_key_security.ipynb) / [Text](week_4/week4_lesson18_api_key_security_circle.md) - Setup and protection guidelines, keeping keys out of GitHub and out of AI chat prompts
-- [Protecting PII When You Use AI (Notebook)](week_4/week4_lesson17_pii_protection.ipynb) / [Text](week_4/week4_lesson17_pii_protection_circle.md) - What counts as PII, redacting it before it reaches a prompt, scrubbing a dataframe before an API call
-- [Finding Risk Points in an AI Pipeline (Notebook)](week_4/week4_lesson16_pipeline_risk_points.ipynb) / [Text](week_4/week4_lesson16_pipeline_risk_points_circle.md) - Applying DLP principles across a full pipeline, spot-the-vulnerability exercise
+- [What is the EU AI Act, and Why You Should Care (Text)](week_4/lesson14_eu_ai_act_intro_circle.md) - Risk categories, provider vs. deployer, the 2026 Digital Omnibus timeline, GDPR overlap
+- [Reviewing Your Own Architecture for Compliance (Text)](week_4/lesson19_architecture_compliance_worksheet_circle.md) - A reusable six-step worksheet applying the AI Act criteria to any system you build
+- [Explore a Real-World Use Case (Text)](week_4/lesson15_real_world_use_case_circle.md) - A real enterprise case study (Starbucks EMEA, built at Monks) read against the AI Act criteria
+- [Setting Up and Protecting Your API Keys (Notebook)](week_4/lesson18_api_key_security.ipynb) / [Text](week_4/lesson18_api_key_security_circle.md) - Setup and protection guidelines, keeping keys out of GitHub and out of AI chat prompts
+- [Protecting PII When You Use AI (Notebook)](week_4/lesson17_pii_protection.ipynb) / [Text](week_4/lesson17_pii_protection_circle.md) - What counts as PII, redacting it before it reaches a prompt, scrubbing a dataframe before an API call
+- [Finding Risk Points in an AI Pipeline (Notebook)](week_4/lesson16_pipeline_risk_points.ipynb) / [Text](week_4/lesson16_pipeline_risk_points_circle.md) - Applying DLP principles across a full pipeline, spot-the-vulnerability exercise
 
 ### Session 4: Synthetic Data
 **Topics**: Generating and using synthetic data for marketing
@@ -104,13 +104,13 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 
 ## ⚠️ Important Notes
 
-- **Never commit API keys** - use Colab Secrets or `.env` files (local). See [week_4/week4_lesson18_api_key_security.ipynb](week_4/week4_lesson18_api_key_security.ipynb) for how keys leak and how to catch it.
+- **Never commit API keys** - use Colab Secrets or `.env` files (local). See [week_4/lesson18_api_key_security.ipynb](week_4/lesson18_api_key_security.ipynb) for how keys leak and how to catch it.
 - Billing must be enabled on your Google account before you can get a Gemini API key — this now applies everywhere, not just the EU/UK/Switzerland
 - Data-use policy (human review, model training) depends on whether your key is on a "Paid tier" project — check the badge in AI Studio, don't assume
 
 ## Optional: Local Setup
 
-For experienced users who prefer local development, see the "Optional B: Local Setup" section in [week_2/week2_lesson08_setup_guide.ipynb](week_2/week2_lesson08_setup_guide.ipynb).
+For experienced users who prefer local development, see the "Optional B: Local Setup" section in [week_2/lesson08_setup_guide.ipynb](week_2/lesson08_setup_guide.ipynb).
 
 Most learners should use Google Colab (the default path).
 
@@ -120,4 +120,4 @@ Post in the Circle community or open an issue in this repository.
 
 ---
 
-**Ready to learn AI for Marketing? Start here:** [Session 1 Setup Guide](week_2/week2_lesson08_setup_guide.ipynb) 🎯
+**Ready to learn AI for Marketing? Start here:** [Session 1 Setup Guide](week_2/lesson08_setup_guide.ipynb) 🎯
