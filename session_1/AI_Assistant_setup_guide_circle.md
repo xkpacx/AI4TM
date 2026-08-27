@@ -1,14 +1,26 @@
 # Hands-on: set up your AI assistant
 
-Setup takes about ten minutes. You'll need a Google account with billing enabled — Google requires this before it will issue a Gemini API key at all — and the GitHub account from Week 1. Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
+Setup takes about ten minutes. You'll need a Google account with billing enabled (Google requires this before it will issue a Gemini API key at all) and the GitHub account from Week 1. Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
 
 One Google login covers Colab and Gemini both. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead. See the optional section at the end.
 
-> **A note on privacy.** Data-use policy depends on whether the API key is billed under a "Paid tier" project. Google's terms say unpaid/free-quota usage may be reviewed by human moderators and used to train future models, while Paid tier usage is not used for training and skips that review — check the badge in AI Studio to see which applies, rather than assuming. Either way, for this course: work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through any AI API, paid or not. Week 4 covers this properly.
+> **A note on privacy.** Data-use policy depends on whether the API key is billed under a "Paid tier" project. Google's terms say unpaid/free-quota usage may be reviewed by human moderators and used to train future models, while Paid tier usage is not used for training and skips that review. Check the badge in AI Studio to see which applies, rather than assuming. Either way, for this course: work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through any AI API, paid or not. Week 4 covers this properly.
 
 ---
 
-## Part 1: open notebooks in Colab
+## Part 1: fork the course repository
+
+A **fork** is your own personal copy of the whole course repository, made under your own GitHub account. It looks and works exactly like the original, but changes you make only affect your copy, never the original, and an update to the original never overwrites anything you've saved in your fork.
+
+1. Go to the course GitHub repository (link provided by your instructor): [github.com/xkpacx/AI4TM](https://github.com/xkpacx/AI4TM).
+2. Click **Fork**, near the top right of the page.
+3. Click **Create fork**. GitHub creates `github.com/YOUR_USERNAME/AI4TM`, your own copy.
+
+You won't need your fork again until Part 6, where you save your first notebook into it.
+
+---
+
+## Part 2: open notebooks in Colab
 
 To open a course notebook:
 
@@ -18,22 +30,22 @@ To open a course notebook:
 
 Notebooks are built from **code cells**, which have a play button and run when clicked, and **text cells**, which are there to be read. You'll mostly run code cells in order, top to bottom.
 
-To save: **File → Save a copy in Drive**, or **File → Save a copy in GitHub** to commit straight to your repository (Part 5).
+To save: **File → Save a copy in Drive**, or **File → Save a copy in GitHub** to commit straight to your fork (Part 6).
 
 ---
 
-## Part 2: get your Gemini API key
+## Part 3: get your Gemini API key
 
 Your API key is what authenticates your code as you. Anyone who has it can spend against your account, so treat it accordingly.
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
 2. Sign in with your Google account.
 3. Click "Create API Key."
-4. Enable billing when prompted — Google requires a billing method on file before it will issue a key at all, everywhere, not only in the EEA, UK, or Switzerland where this was required earlier.
+4. Enable billing when prompted. Google requires a billing method on file before it will issue a key at all, everywhere, not only in the EEA, UK, or Switzerland where this was required earlier. If you don't already have a Google Cloud billing account, [this guide walks through creating one](https://cloud.google.com/billing/docs/how-to/create-billing-account) (a credit or debit card, added once).
 5. Let Google create a new project for you (click "Continue" when prompted).
 6. Copy the key. It starts with `AIza`.
 
-> **On cost:** once billing is on, usage is billed at pay-as-you-go rates — fractions of a cent per request for the lightweight models used in this course. There's no free quota behind it, so a mistaken large batch job costs real money instead of just hitting a daily limit; the token cost guide covers checking before you run one.
+> **On cost:** once billing is on, usage is billed at pay-as-you-go rates, fractions of a cent per request for the lightweight models used in this course. There's no free quota behind it, so a mistaken large batch job costs real money instead of just hitting a daily limit; the token cost guide covers checking before you run one.
 
 ### Store the key in Colab Secrets
 
@@ -50,7 +62,7 @@ Week 4 goes further into key handling, including `.env` files and `.gitignore` f
 
 ---
 
-## Part 3: test your setup
+## Part 4: test your setup
 
 Install Google's Gemini library in a code cell:
 
@@ -71,7 +83,7 @@ client = genai.Client(api_key=userdata.get('GEMINI_API_KEY'))
 
 # Ask Gemini a question
 response = client.models.generate_content(
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.5-flash-lite',
     contents='In one sentence, what is customer segmentation?'
 )
 
@@ -82,9 +94,9 @@ If you get an error, check that the key is in Secrets, that it's named exactly `
 
 ---
 
-## Part 4: your usage and rate limits
+## Part 5: your usage and rate limits
 
-Billed usage still has per-minute and per-day rate limits — paying doesn't mean unlimited. Google changes these limits periodically and they vary by model, so check your live limits in [AI Studio](https://aistudio.google.com) rather than relying on a number quoted here.
+Billed usage still has per-minute and per-day rate limits: paying doesn't mean unlimited. Google changes these limits periodically and they vary by model, so check your live limits in [AI Studio](https://aistudio.google.com) rather than relying on a number quoted here.
 
 A typical session in this course uses roughly 20 to 50 requests, which costs a small fraction of a cent on the lightweight models we use. If you hit a rate limit, the API returns a 429 error. Wait for the reset, or check whether the account needs a higher tier.
 
@@ -92,26 +104,17 @@ Estimating token costs before running a job is covered in this week's cost guide
 
 ---
 
-## Part 5: save your work to GitHub
+## Part 6: save your work to GitHub
 
-Create a repository to hold your course work:
+You forked the repository in Part 1. Save this notebook into that fork:
 
-1. On GitHub, click the "+" icon in the top right.
-2. Select "New repository."
-3. Name it `ai4tm-masterclass`.
-4. Add a description, such as "AI for Marketing projects."
-5. Choose Public or Private.
-6. Check "Add a README file."
-7. Under "Add .gitignore," choose "Python."
-8. Click "Create repository."
+**File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `YOUR_USERNAME/AI4TM` (the fork you created in Part 1), keep the file path Colab suggests (`session_1/setup_guide.ipynb`), write a commit message, and click OK.
 
-To save a Colab notebook into it: **File → Save a copy in GitHub**. Colab will ask to authorise access the first time. Then select `your-username/ai4tm-masterclass`, set the file path to `session_1/setup_guide.ipynb`, write a commit message, and click OK.
-
-This gives you version history you can roll back, a copy outside Colab, and over time a record of your applied AI work.
+Repeat this at the end of every session, into that same fork, at that same file path. This gives you version history you can roll back, a copy outside Colab, and over time a record of your applied AI work.
 
 ---
 
-## Part 6: quick reference
+## Part 7: quick reference
 
 The basic pattern for calling Gemini, and the shape most of your prompts in this course will take:
 
@@ -124,7 +127,7 @@ client = genai.Client(api_key=userdata.get('GEMINI_API_KEY'))
 
 # Ask something
 response = client.models.generate_content(
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.5-flash-lite',
     contents='Your question here'
 )
 
@@ -150,7 +153,7 @@ Provide:
 '''
 
 response = client.models.generate_content(
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.5-flash-lite',
     contents=prompt
 )
 
@@ -173,7 +176,7 @@ Make them engaging with a call-to-action.
 '''
 
 response = client.models.generate_content(
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.5-flash-lite',
     contents=prompt
 )
 
@@ -188,7 +191,7 @@ Both prompts describe the task without including worked examples, which makes th
 
 Colab is ready, your key is stored, the connection is tested, and your first notebook is saved to GitHub. Before each session: open that session's notebook, confirm the key is still in Secrets, and run the setup cells at the top.
 
-Save to GitHub regularly rather than relying on Colab's autosave. Change the example code and rerun it, since reading it teaches less than breaking it. Keep an eye on your usage and rate limits — there's no free quota behind it anymore. Use only public or synthetic data.
+Save to GitHub regularly rather than relying on Colab's autosave. Change the example code and rerun it, since reading it teaches less than breaking it. Keep an eye on your usage and rate limits. There's no free quota behind it anymore. Use only public or synthetic data.
 
 ---
 
@@ -243,26 +246,44 @@ Model names change. If a call errors on the model ID, check the provider's curre
 
 ### Optional B: local setup
 
-You'll need Python 3.10 or later, the command line, and a working understanding of file paths.
+You'll need to be comfortable with the command line and file paths. You do not need Python already installed, the tool below handles that itself.
+
+This course uses [uv](https://docs.astral.sh/uv/) for local setup rather than a hand-built `venv`, since it creates each session's environment automatically, with nothing to create or activate by hand.
 
 ```bash
-# Download the repository
-git clone https://github.com/YOUR_USERNAME/ai4tm-masterclass.git
-cd ai4tm-masterclass
+# Clone the fork you created in Part 1
+git clone https://github.com/YOUR_USERNAME/AI4TM.git
+cd AI4TM
 
-# Create isolated Python environment
-python -m venv venv
-
-# Turn it on
-source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate     # Windows
-
-# Install packages
-pip install -r requirements.txt
-
-# Start Jupyter
-jupyter notebook
+# Install uv (one time)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows (PowerShell): powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
+
+From here, pick whichever of the two matches how you like to work.
+
+**Recommended: a persistent environment, one per session, for VS Code, PyCharm, or any other IDE.** Each session folder gets its own `.venv`, created once from a terminal:
+
+```bash
+cd session_1
+uv venv
+uv pip install -r requirements.txt
+```
+
+`requirements.txt` already lists `ipykernel`, so this one command installs everything the session needs and registers the environment as a selectable Jupyter kernel, no separate step. Then open the notebook in your IDE and point its kernel/interpreter picker at what you just created: **VS Code** → Select Kernel (top right) → Python Environments → the `.venv` inside `session_1`. **PyCharm** → Settings → Project → Python Interpreter → Add Interpreter → Existing → `session_1/.venv/bin/python` (`session_1\.venv\Scripts\python.exe` on Windows). Any other IDE: point its interpreter/kernel picker at that same path.
+
+Repeat `cd session_N && uv venv && uv pip install -r requirements.txt` for each session as you reach it, environments are deliberately per-session, not shared, so one session's packages never conflict with another's.
+
+**Alternative: a disposable browser tab, like Colab, no IDE or kernel-picking involved.** Each time you want to work on a session:
+
+```bash
+cd session_1
+uv run --with jupyter jupyter lab
+```
+
+This opens Jupyter Lab in your browser, with a fresh environment built just for that session, torn down again once you close it, nothing persists between runs the way the recommended option's `.venv` does.
+
+### Storing API keys locally
 
 To store an API key locally, create a `.env` file in the project folder:
 

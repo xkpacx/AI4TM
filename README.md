@@ -8,14 +8,17 @@ This course uses **Google Gemini's pay-as-you-go API** — as of 2026, Google re
 
 ### Quick Start (10 minutes)
 
-1. **Get a Gemini API key**:
+1. **Fork this repository**:
+   Click "Fork" at the top right of this page. This gives you your own copy at `github.com/YOUR_USERNAME/AI4TM` to save your work into as you go, without touching the original.
+
+2. **Get a Gemini API key**:
    Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), enable billing when prompted, and create a key
 
-2. **Open notebooks in Google Colab**:
+3. **Open notebooks in Google Colab**:
    Click any `.ipynb` file in this repository → Look for "Open in Colab" badge → Click it
 
-3. **Start with the setup guide**:
-   [session_1/setup_guide.ipynb](session_1/setup_guide.ipynb)
+4. **Start with the setup guide**:
+   [session_1/setup_guide.ipynb](session_1/setup_guide.ipynb) — it walks through all of the above in order, plus how to save your work into your fork
 
 **That's it!** No local installation, no complex setup — just a Google account with billing enabled.
 
@@ -84,6 +87,7 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 - [CLAUDE.md](CLAUDE.md) - Repository guidance for AI assistants
 - All notebooks designed for Google Colab (one-click from GitHub)
 - Local setup available as optional/advanced path
+- Students work in their own fork, never as collaborators on this repository — nobody but the instructor team can push to it, forking or not. `main` is branch-protected (PR review required, no force-push or deletion).
 
 ## 🤝 For Students
 
@@ -93,7 +97,7 @@ Unpaid/free-quota AI usage (Google, OpenAI, etc.) may be reviewed by humans or u
 3. Run the setup cells
 
 ### Tips
-- **Save often**: File → Save a copy in GitHub
+- **Save often**: File → Save a copy in GitHub, into your fork
 - **Experiment**: Try changing code to see what happens
 - **Watch your spend**: no free quota to fall back on — check pricing at [AI Studio](https://aistudio.google.com/apikey) and use the token cost guide before a big batch job
 - **No real data**: Only use public or made-up data

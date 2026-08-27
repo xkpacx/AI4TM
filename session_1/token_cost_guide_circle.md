@@ -60,7 +60,7 @@ from google.colab import userdata
 client = genai.Client(api_key=userdata.get('GEMINI_API_KEY'))
 
 response = client.models.count_tokens(
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.5-flash-lite',
     contents='Analyze this customer review for sentiment: "Great product, slow shipping."'
 )
 print(response.total_tokens)
@@ -76,9 +76,10 @@ Prices are quoted per one million tokens and shift as providers release and reti
 
 | Provider | Model | Input $/1M | Output $/1M | Notes |
 |---|---|---|---|---|
-| Google Gemini | Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Cheapest option, **retiring 16 October 2026** |
-| Google Gemini | Gemini 3.1 Flash-Lite | $0.25 | $1.50 | The migration target once 2.5 retires |
-| Google Gemini | Gemini 3.5 Flash | $1.50 | $9.00 | More capable, roughly 6x the Flash-Lite input price |
+| Google Gemini | Gemini 3.5 Flash-Lite | $0.30 | $2.50 | Used in this course |
+| Google Gemini | Gemini 3.1 Flash-Lite | $0.25 | $1.50 | Cheaper alternative, older generation |
+| Google Gemini | Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Cheapest option, but Google is retiring it (16 October 2026, not yet final) and it's already been unreliable ahead of that date |
+| Google Gemini | Gemini 3.5 Flash | $1.50 | $9.00 | More capable, roughly 5x the Flash-Lite input price |
 | OpenAI | GPT-4o mini | $0.15 | $0.60 | Budget tier, check the pricing page for current model lineup |
 | Anthropic | Claude Haiku 4.5 | $1.00 | $5.00 | Cheapest current Claude |
 | Anthropic | Claude Sonnet 5 | $3.00 | $15.00 | Mid-tier. Introductory rate of $2.00/$10.00 applies through 31 August 2026 |
@@ -89,7 +90,7 @@ Official pricing pages, always more current than a static table:
 - OpenAI: [openai.com/api/pricing](https://openai.com/api/pricing/)
 - Anthropic: [claude.com/pricing](https://claude.com/pricing)
 
-> **Model retirement affects this course.** Google is retiring the Gemini 2.5 family on 16 October 2026, and the course notebooks currently call `gemini-2.5-flash-lite`. If a call starts failing on the model name, swap it for `gemini-3.1-flash-lite`, which is the direct replacement. Note the price difference: 3.1 Flash-Lite costs roughly 2.5x more on input and nearly 4x more on output, so re-run your estimate after switching.
+> **Model retirement affects this course.** The course notebooks call `gemini-3.5-flash-lite`. They used to call `gemini-2.5-flash-lite`, but that model started erroring out for some students well ahead of Google's own retirement date (16 October 2026, and not yet final), so the notebooks were moved off it early. If `gemini-3.5-flash-lite` ever starts failing on the model name for you, check [AI Studio](https://aistudio.google.com) for the current lineup; `gemini-3.1-flash-lite` is Google's official migration target for 2.5 and costs noticeably less than 3.5 on both input and output, so it's worth trying first if 3.5 is also unavailable or you want to cut cost.
 
 > **There is no free tier left.** Google removed Pro models from the free tier in April 2026, leaving only Flash and Flash-Lite free — and since then has moved to requiring a billing method on file before issuing any Gemini API key at all, closing that remaining free path too. Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
 
@@ -134,8 +135,9 @@ Sentiment analysis on 500 reviews, each roughly 50 words (about 250 characters),
 
 | Model | Estimated cost for 500 reviews |
 |---|---|
-| Gemini 2.5 Flash-Lite | ~$0.011 |
+| Gemini 3.5 Flash-Lite | ~$0.059 |
 | Gemini 3.1 Flash-Lite | ~$0.038 |
+| Gemini 2.5 Flash-Lite | ~$0.011 |
 | GPT-4o mini | ~$0.017 |
 | Claude Haiku 4.5 | ~$0.131 |
 | Claude Sonnet 5 | ~$0.394 |
