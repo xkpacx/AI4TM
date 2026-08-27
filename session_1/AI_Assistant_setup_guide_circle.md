@@ -1,6 +1,6 @@
 # Hands-on: set up your AI assistant
 
-Setup takes about ten minutes. You'll need a Google account with billing enabled (Google requires this before it will issue a Gemini API key at all) and the GitHub account from Week 1. Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
+Setup takes about ten minutes. You'll need a Google account with billing enabled (Google requires this before it will issue a Gemini API key at all) and the [GitHub account from Week 1](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1009688/lessons/3914861). Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
 
 One Google login covers Colab and Gemini both. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead. See the optional section at the end.
 
@@ -134,7 +134,7 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-**Sentiment analysis on a customer review**, a classification task in the sense covered in Lesson 6:
+**Sentiment analysis on a customer review**, a classification task in the sense covered in [Lesson 6](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/4202494):
 
 ```python
 from google import genai
@@ -183,7 +183,7 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-Both prompts describe the task without including worked examples, which makes them zero-shot (Lesson 6). Adding two or three labelled examples is the first thing to try when output is inconsistent.
+Both prompts describe the task without including worked examples, which makes them zero-shot ([Lesson 6](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/4202494)). Adding two or three labelled examples is the first thing to try when output is inconsistent.
 
 ---
 
