@@ -1,6 +1,6 @@
 # Hands-on: estimate token costs before you run anything
 
-[Lesson 3](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/3914878) covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. There's no free Gemini tier left to fall back on if that step gets skipped. Every provider used in this course now requires billing before it issues a key.
+[Lesson 3](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1029997/lessons/3914878) covered what tokens are and why everything you pay for is counted in them. This guide turns that into a habit: before running a model over 500 customer reviews, a full spreadsheet, or a folder of documents, work out roughly what the run will cost. This course runs on a billed key rather than Gemini's free tier (Lesson 8's setup guide explains why), so there's no daily quota to fall back on if that step gets skipped. Every request is billed from the first one.
 
 Takes about 15 minutes.
 
@@ -8,7 +8,7 @@ Takes about 15 minutes.
 
 ## Why this matters
 
-Every provider used in this course, Gemini included, now requires a billing method on file before it will issue a key. Every request costs real money, priced per token rather than per request. A single test prompt costs a fraction of a cent, so careful, deliberate testing is cheap. The expensive failure is an unplanned loop: a script that re-sends a fifty-page document on every one of ten thousand iterations can accumulate real cost before anyone notices, with no daily quota wall to stop it early the way a free tier used to. Estimate first, run second, and that doesn't happen.
+This course runs every provider, Gemini included, on a billed key rather than a free tier (Lesson 8 explains why). Every request costs real money, priced per token rather than per request. A single test prompt costs a fraction of a cent, so careful, deliberate testing is cheap. The expensive failure is an unplanned loop: a script that re-sends a fifty-page document on every one of ten thousand iterations can accumulate real cost before anyone notices, with no daily quota wall to stop it early the way a free tier would. Estimate first, run second, and that doesn't happen.
 
 ---
 
@@ -92,7 +92,7 @@ Official pricing pages, always more current than a static table:
 
 > **Model retirement affects this course.** The course notebooks call `gemini-3.5-flash-lite`. They used to call `gemini-2.5-flash-lite`, but that model started erroring out for some students well ahead of Google's own retirement date (16 October 2026, and not yet final), so the notebooks were moved off it early. If `gemini-3.5-flash-lite` ever starts failing on the model name for you, check [AI Studio](https://aistudio.google.com) for the current lineup; `gemini-3.1-flash-lite` is Google's official migration target for 2.5 and costs noticeably less than 3.5 on both input and output, so it's worth trying first if 3.5 is also unavailable or you want to cut cost.
 
-> **There is no free tier left.** Google removed Pro models from the free tier in April 2026, leaving only Flash and Flash-Lite free, and since then has moved to requiring a billing method on file before issuing any Gemini API key at all, closing that remaining free path too. Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
+> **A free tier still exists, this course just doesn't use it.** Google removed Pro models from the free tier in April 2026, leaving Flash and Flash-Lite genuinely free with no card required, in most regions including the US. This course has you enable billing anyway, for the data-handling reason in Lesson 8's privacy note, not because Google forces it (it does force it in the EEA, UK, and Switzerland). Billed usage still carries a daily and per-minute rate limit that Google adjusts over time; before processing more than a handful of items, check the current limits on the AI Studio dashboard rather than trusting a fixed number from any guide, this one included.
 
 ---
 
@@ -150,7 +150,7 @@ Even the costliest option lands well under a dollar for 500 reviews. A single we
 
 **Estimate before looping.** Multiply item count by tokens per item by price, before writing the `for` loop that calls the API.
 
-**Test on the cheapest model first.** Prototype a prompt on the cheapest available model, then upgrade only when quality genuinely requires it. None of these models are free anymore, but the cheapest ones cost little enough to iterate on freely.
+**Test on the cheapest model first.** Prototype a prompt on the cheapest available model, then upgrade only when quality genuinely requires it. On a billed key none of these calls are free, but the cheapest models cost little enough to iterate on freely.
 
 **Cap the output length.** Most APIs accept a `max_tokens` parameter or similar. Setting a sane ceiling means a model that starts rambling can't run up an unexpected output bill, and output is the expensive side.
 

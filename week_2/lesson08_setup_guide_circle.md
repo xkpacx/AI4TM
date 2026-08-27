@@ -1,10 +1,10 @@
 # Hands-on: set up your AI assistant
 
-Setup takes about ten minutes. You'll need a Google account with billing enabled (Google requires this before it will issue a Gemini API key at all) and the [GitHub account from Week 1](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1009688/lessons/3914861). Actual cost is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
+Setup takes about ten minutes. You'll need a Google account and the [GitHub account from Week 1](https://community.teamsimmer.com/c/ai-for-technical-marketers/sections/1009688/lessons/3914861). This course has you enable billing on that account before creating your Gemini API key, even though a genuine no-card free tier still exists in most regions, including the US (see the privacy note below for why). If you're in the EEA, UK, or Switzerland, billing isn't optional either way, Google won't issue a key there without it. Gemini isn't available at all in mainland China or Hong Kong; if that's you, use the OpenAI or Anthropic path in the optional section instead. Actual cost, once billing is on, is low: the lightweight models used in this course run at fractions of a cent per request, and the token cost guide later this session shows how to check before running anything larger.
 
 One Google login covers Colab and Gemini both. If you already hold a paid API key for OpenAI or Anthropic, you can use that instead. See the optional section at the end.
 
-> **A note on privacy.** Data-use policy depends on whether the API key is billed under a "Paid tier" project. Google's terms say unpaid/free-quota usage may be reviewed by human moderators and used to train future models, while Paid tier usage is not used for training and skips that review. Check the badge in AI Studio to see which applies, rather than assuming. Either way, for this course: work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through any AI API, paid or not. Week 4 covers this properly.
+> **A note on privacy, and why this course uses billing even though a free option exists.** A genuine no-card free tier for Gemini is still available in most regions, including the US. This course has you enable billing anyway, because data-use policy depends on it: Google's terms say unpaid/free-quota usage may be reviewed by human moderators and used to train future models, while Paid tier usage is not used for training and skips that review. Check the badge in AI Studio to confirm which applies to your key, rather than assuming. Either way, for this course: work only with public example data, synthetic data, or the anonymised datasets in the materials. Don't send client data, confidential information, or proprietary content through any AI API, paid or not. Week 4 covers this properly.
 
 ---
 
@@ -41,11 +41,11 @@ Your API key is what authenticates your code as you. Anyone who has it can spend
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
 2. Sign in with your Google account.
 3. Click "Create API Key."
-4. Enable billing when prompted. Google requires a billing method on file before it will issue a key at all, everywhere, not only in the EEA, UK, or Switzerland where this was required earlier. If you don't already have a Google Cloud billing account, [this guide walks through creating one](https://cloud.google.com/billing/docs/how-to/create-billing-account) (a credit or debit card, added once).
+4. Enable billing. If you're in the EEA, UK, or Switzerland, Google requires this before it will issue a key at all. Everywhere else, including the US, a no-card free tier exists and Google won't force this step, but enable it anyway: it's what puts your usage on Google's "Paid tier" data-handling terms (see the privacy note above). If you don't already have a Google Cloud billing account, [this guide walks through creating one](https://cloud.google.com/billing/docs/how-to/create-billing-account) (a credit or debit card, added once).
 5. Let Google create a new project for you (click "Continue" when prompted).
 6. Copy the key. It starts with `AIza`.
 
-> **On cost:** once billing is on, usage is billed at pay-as-you-go rates, fractions of a cent per request for the lightweight models used in this course. There's no free quota behind it, so a mistaken large batch job costs real money instead of just hitting a daily limit; the token cost guide covers checking before you run one.
+> **On cost:** once billing is on, usage is billed at pay-as-you-go rates, fractions of a cent per request for the lightweight models used in this course. With billing enabled, there's no free quota behind your usage, so a mistaken large batch job costs real money instead of just hitting a daily limit. That's the tradeoff for the privacy benefit above; the token cost guide covers checking before you run one.
 
 ### Store the key in Colab Secrets
 
